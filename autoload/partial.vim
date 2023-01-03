@@ -6,6 +6,7 @@ let g:partial#search_head_pattern = '^\S <% partial_path: '
 let g:partial#search_tail_pattern = '^\S %>'
 
 " Name: partial#_get_range
+" Description:  Get the line number of the range you want to partial file.
 " Return: list[partial_start_line, partial_end_line]
 function! partial#_get_range() abort
   let b:origin_head_line = search(g:partial#search_head_pattern, 'bcW')
@@ -15,7 +16,7 @@ function! partial#_get_range() abort
     echohl WarningMsg
     echomsg 'Not found partial tag.'
     echohl None
-    return
+    return v:false
   endif
 
   return [b:origin_head_line, b:origin_tail_line]
