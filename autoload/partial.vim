@@ -8,9 +8,7 @@ let g:partial#match_except_path = '^\W*\w*: '
 
 " Name: partial#_get_range
 " Description:  Get the line number of the range you want to partial file.
-" Return: dict{ bufname
-"               startline
-"               endline }
+" Return: dict{ bufname, startline, endline }
 function! partial#_get_range() abort
   let origin_startline = search(g:partial#search_head_pattern, 'bcW')
   let origin_endline = search(g:partial#search_tail_pattern, 'nW')
@@ -32,10 +30,10 @@ endfunction
 
 " Name: partial#_get_file_path
 " Description: Extract the file path specified in the startline.
-" Params: int
-" Return: string
-function! partial#_get_file_path(startline) abort
-  let head_string = getline(a:startline)
+" Params: dict(_get_range)
+" Return: string(path)
+function! partial#_get_file_path(range) abort
+  let head_string = getbufline(a:range['bufname'], a:range['startline'])
   let path_string = substitute(head_string, g:partial#match_except_path, '', '')
   return path_string
 endfunction
