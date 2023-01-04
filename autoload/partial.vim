@@ -19,6 +19,7 @@ function! partial#_get_range() abort
     echohl WarningMsg
     echomsg 'Not found partial tag.'
     echohl None
+
     return v:false
   endif
 
@@ -37,6 +38,7 @@ endfunction
 function! partial#_get_file_path(range) abort
   let head_string = getbufline(a:range['bufname'], a:range['startline'])
   let path_string = substitute(head_string, g:partial#match_except_path, '', '')
+
   if partial#_is_absolute_path(path_string)
     return path_string
   else
