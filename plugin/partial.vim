@@ -6,3 +6,9 @@ if exists('g:loaded_partial_vim')
     finish
 endif
 let g:loaded_partial_vim = 1
+
+if has('linux')
+  let g:partial#use_os = 'linux'
+elseif has('win64')
+  let g:partial#use_os = 'windows'
+endif

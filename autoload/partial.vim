@@ -36,6 +36,20 @@ function! partial#_get_file_path(range) abort
   let head_string = getbufline(a:range['bufname'], a:range['startline'])
   let path_string = substitute(head_string, g:partial#match_except_path, '', '')
   return path_string
+
+" Name: partial#_is_absolute_path
+" Description: Neovim does not have an isabsolutepath, so prepare it as a helper.
+" Params: string(path)
+" Return: boolean
+function! partial#_is_absolute_path(path) abort
+  let posix_absolute_pattern = '/'
+  let windows_absolute_pattern = '\u:\'
+
+  if g:partial#use_os ==# 'linux'
+    return match(a:path, posix_absolute_pattern) == 0
+  elseif g:partial#use_os ==# 'windows'
+    return match(a:path, windows_absolute_pattern) == 0
+  endif
 endfunction
 
 " Name: partial#_get_line
