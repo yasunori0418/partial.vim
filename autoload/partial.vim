@@ -84,11 +84,3 @@ endfunction
 function! partial#_get_line(range) abort
   return getbufline(a:range['bufname'], a:range['startline'] + 1, a:range['endline'] - 1)
 endfunction
-
-" Name: partial#_write_line
-" Description: Write to a file with the list of partial codes obtained
-" Params: list(_get_line)
-" Return: boolean
-function! partial#_write_line(lines, path) abort
-  return v:true
-endfunction
