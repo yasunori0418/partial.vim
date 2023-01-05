@@ -42,22 +42,14 @@ function! partial#_get_file_path(range) abort
   if partial#_is_absolute_path(path_string)
     return path_string
   else
-    if g:partial#use_os ==# 'linux'
-      if match(path_string, '.') == 0
-        let excluded_path_head_dot = substitute(path_string, '\.', '', '')
-        return a:range['bufcwd'] . excluded_path_head_dot
-      else
-        return a:range['bufcwd'] . '/' . path_string
-      endif
+    if match(path_string, '\.\W') == 0
+      let path_string = substitute(path_string, '\.\W', '', '')
+    end
 
-    elseif g:partial#use_os ==# 'windows'
-      if match(path_string, '.') == 0
-        let excluded_path_head_dot = substitute(path_string, '\.', '', '')
-        return a:range['bufcwd'] . excluded_path_head_dot
-      else
-        return a:range['bufcwd'] . '\' . path_string
-      endif
-
+    if g:partial#use_os_type ==# 'posix'
+      return a:range['bufcwd'] . '/' . path_string
+    elseif g:partial#use_os_type ==# 'windows'
+      return a:range['bufcwd'] . '\' . path_string
     endif
   endif
 endfunction
@@ -70,9 +62,9 @@ function! partial#_is_absolute_path(path) abort
   let posix_absolute_pattern = '/'
   let windows_absolute_pattern = '\u:\'
 
-  if g:partial#use_os ==# 'linux'
+  if g:partial#use_os_type ==# 'posix'
     return match(a:path, posix_absolute_pattern) == 0
-  elseif g:partial#use_os ==# 'windows'
+  elseif g:partial#use_os_type ==# 'windows'
     return match(a:path, windows_absolute_pattern) == 0
   endif
 endfunction
