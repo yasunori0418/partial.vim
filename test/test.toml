@@ -2,7 +2,7 @@
 repo = 'yasunori-kirin0418/partial.vim'
 on_cmd = ['PartialOpen', 'PartialVsplit', 'PartialSplit', 'PartialTabedit', 'PartialSync']
 hook_add = '''
-" <% partial_path: ./partial/partial.vim
+" <% ./partial/partial.vim
 " e.g. some vimscript configurations...1
 " e.g. some vimscript configurations...2
 " e.g. some vimscript configurations...3
