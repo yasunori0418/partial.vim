@@ -9,6 +9,7 @@ let g:partial#comment_out_symbols = {
 let g:partial#head_string = ' <% '
 let g:partial#tail_string = ' %>'
 let g:partial#head_path_prefix = ''
+let g:partial#open_type = 'current'
 
 " Name: partial#_filetype_surround_pattern
 " Description: Generates a pattern of enclosing characters for the part to be a partial file according to the comment out for each language.
@@ -97,9 +98,9 @@ endfunction
 
 " Name: partial#open
 " Description: Create a file containing the code to be partial and open it in a new buffer.
-" Params: string(filetype)
+" Params: string(filetype), open_type(current, vertical, horizontal)
 " Return: void
-function! partial#open(filetype) abort
+function! partial#open(filetype, open_type = g:partial#open_type) abort
   let partial_range = partial#_get_range(a:filetype)
   if empty(partial_range)
     return
@@ -113,5 +114,15 @@ function! partial#open(filetype) abort
   endif
 
   call writefile(partial_line, partial_file_path, 'b')
-  execute 'edit' partial_file_path
+  if a:open_type ==# 'current'
+    execute 'edit' partial_file_path
+  elseif a:open_type ==# 'vertical'
+    execute 'vsplit' partial_file_path
+  elseif a:open_type ==# 'horizontal'
+    execute 'split' partial_file_path
+  else
+    echohl WarningMsg
+    echomsg 'Wrong g:partial#open_type => ' . g:partial#open_type
+    echohl None
+  endif
 endfunction
