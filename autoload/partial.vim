@@ -2,16 +2,33 @@
 " Author: yasunori-kirin0418
 " License: MIT
 
-let g:partial#search_head_pattern = '^\S <% partial_path: '
-let g:partial#search_tail_pattern = '^\S %>'
-let g:partial#match_except_path = '^\W*\w*: '
+let g:partial#comment_out_symbols = {
+  \ 'vim': '"',
+  \ 'lua': '--',
+  \ }
+let g:partial#head_string = ' <% '
+let g:partial#tail_string = ' %>'
+let g:partial#head_path_prefix = ''
+
+" Name: partial#_filetype_surround_pattern
+" Description: Generates a pattern of enclosing characters for the part to be a partial file according to the comment out for each language.
+" Params: string(filetype)
+" Return: dict{head_pattern, tail_pattern}
+function! partial#_filetype_surround_pattern(filetype) abort
+  return {
+        \ 'head_pattern': g:partial#comment_out_symbols[a:filetype] . g:partial#head_string . g:partial#head_path_prefix,
+        \ 'tail_pattern': g:partial#comment_out_symbols[a:filetype] . g:partial#tail_string,
+        \ }
+endfunction
 
 " Name: partial#_get_range
 " Description:  Get the line number of the range you want to partial file.
-" Return: dict{ bufname, bufcwd, startline, endline }
-function! partial#_get_range() abort
-  let origin_startline = search(g:partial#search_head_pattern, 'bcW')
-  let origin_endline = search(g:partial#search_tail_pattern, 'nW')
+" Params: string(filetype)
+" Return: dict{ bufname, bufcwd, startline, endline, surround_patterns }
+function! partial#_get_range(filetype) abort
+  let surround_patterns = partial#_filetype_surround_pattern(a:filetype)
+  let origin_startline = search(surround_patterns['head_pattern'], 'bcW')
+  let origin_endline = search(surround_patterns['tail_pattern'], 'nW')
   let origin_bufname = bufname('%')
   let origin_bufcwd = fnamemodify(origin_bufname, ':p:h')
 
@@ -20,14 +37,15 @@ function! partial#_get_range() abort
     echomsg 'Not found partial tag.'
     echohl None
 
-    return v:false
+    return {}
   endif
 
   return {
         \ 'bufname': origin_bufname,
         \ 'bufcwd': origin_bufcwd,
         \ 'startline': origin_startline,
-        \ 'endline': origin_endline
+        \ 'endline': origin_endline,
+        \ 'surround_patterns': surround_patterns,
         \ }
 endfunction
 
@@ -36,8 +54,8 @@ endfunction
 " Params: dict(_get_range)
 " Return: string(path)
 function! partial#_get_file_path(range) abort
-  let head_string = getbufline(a:range['bufname'], a:range['startline'])
-  let path_string = substitute(head_string, g:partial#match_except_path, '', '')
+  let head_string = getline(a:range.startline)
+  let path_string = substitute(head_string, a:range.surround_patterns.head_pattern, '', '')
 
   if partial#_is_absolute_path(path_string)
     return path_string
@@ -74,5 +92,26 @@ endfunction
 " Params: dict(_get_range)
 " Return: list[...]
 function! partial#_get_line(range) abort
-  return getbufline(a:range['bufname'], a:range['startline'] + 1, a:range['endline'] - 1)
+  return getbufline(a:range.bufname, a:range.startline + 1, a:range.endline - 1)
+endfunction
+
+" Name: partial#open
+" Description: Create a file containing the code to be partial and open it in a new buffer.
+" Params: string(filetype)
+" Return: void
+function! partial#open(filetype) abort
+  let partial_range = partial#_get_range(a:filetype)
+  if empty(partial_range)
+    return
+  endif
+  let partial_line = partial#_get_line(partial_range)
+  let partial_file_path = partial#_get_file_path(partial_range)
+  let partial_directory = fnamemodify(partial_file_path, ':h')
+
+  if !isdirectory(partial_directory)
+    call mkdir(partial_directory)
+  endif
+
+  call writefile(partial_line, partial_file_path, 'b')
+  execute 'edit' partial_file_path
 endfunction
