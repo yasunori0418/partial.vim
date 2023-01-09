@@ -13,11 +13,11 @@ let g:partial#origin_path_prefix = 'origin_path: '
 " open_type(edit, vsplit, split, tabedit)
 let g:partial#open_type = 'edit'
 
-" Name: partial#_filetype_surround_pattern
+" Name: partial#__filetype_surround_pattern
 " Description: Generates a pattern of enclosing characters for the part to be a partial file according to the comment out for each language.
 " Params: string(filetype)
 " Return: dict{head_pattern, tail_pattern}
-function! partial#_filetype_surround_pattern(filetype) abort
+function! partial#__filetype_surround_pattern(filetype) abort
   return {
         \ 'head_pattern': g:partial#comment_out_symbols[a:filetype] . g:partial#head_string . g:partial#partial_path_prefix,
         \ 'tail_pattern': g:partial#comment_out_symbols[a:filetype] . g:partial#tail_string,
@@ -29,7 +29,7 @@ endfunction
 " Params: string(filetype)
 " Return: dict{ origin_path, origin_directory, startline, endline, surround_patterns, filetype }
 function! partial#_get_range(filetype) abort
-  let surround_patterns = partial#_filetype_surround_pattern(a:filetype)
+  let surround_patterns = partial#__filetype_surround_pattern(a:filetype)
   let startline = search(surround_patterns.head_pattern, 'bcW')
   let endline = search(surround_patterns.tail_pattern, 'nW')
   let origin_path = fnamemodify(bufname('%'), ':p')
@@ -61,7 +61,7 @@ function! partial#_get_file_path(range) abort
   let head_string = getline(a:range.startline)
   let path_string = substitute(head_string, a:range.surround_patterns.head_pattern, '', '')
 
-  if partial#_is_absolute_path(path_string)
+  if partial#__is_absolute_path(path_string)
     return path_string
   else
 
@@ -73,11 +73,11 @@ function! partial#_get_file_path(range) abort
   endif
 endfunction
 
-" Name: partial#_is_absolute_path
+" Name: partial#__is_absolute_path
 " Description: Neovim does not have an isabsolutepath, so prepare it as a helper.
 " Params: string(path)
 " Return: boolean
-function! partial#_is_absolute_path(path) abort
+function! partial#__is_absolute_path(path) abort
   let posix_absolute_pattern = '/'
   let windows_absolute_pattern = '\u:\'
 
@@ -105,6 +105,7 @@ endfunction
 
 " Name: partial#open
 " Description: Create a file containing the code to be partial and open it in a new buffer.
+"             If the file already exists, open it.
 " Params: string(filetype)
 " Return: void
 function! partial#open(filetype) abort
