@@ -27,7 +27,7 @@ endfunction
 " Name: partial#get_origin_range
 " Description:  Get the line number of the range you want to partial file.
 " Params: string(filetype)
-" Return: dict{ origin_path, origin_directory, startline, endline, surround_patterns, filetype }
+" Return: dict{origin_path, origin_directory, startline, endline, surround_patterns, filetype}
 function! partial#get_origin_range(filetype) abort
   let surround_patterns = partial#__filetype_surround_pattern(a:filetype)
   let startline = search(surround_patterns.head_pattern, 'bcW')
@@ -52,6 +52,11 @@ function! partial#get_origin_range(filetype) abort
         \ 'filetype': a:filetype,
         \ }
 endfunction
+
+" Name: partial#get_partial_range
+" Description:
+" Params: string(filetype)
+" Return: dict{}
 
 " Name: partial#_get_file_path
 " Description: Extract the file path specified in the startline.
@@ -91,7 +96,7 @@ endfunction
 " Name: partial#_get_line
 " Description: Get the string of the partial range as an array.
 " Params: dict(_get_range)
-" Return: list[...]
+" Return: list
 function! partial#_get_line(range) abort
   if has('linux') || has('mac')
     let home_dir_env = '$HOME'
