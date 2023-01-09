@@ -8,7 +8,8 @@ let g:partial#comment_out_symbols = {
   \ }
 let g:partial#head_string = ' <% '
 let g:partial#tail_string = ' %>'
-let g:partial#head_path_prefix = 'partial_path: '
+let g:partial#partial_path_prefix = 'partial_path: '
+let g:partial#origin_path_prefix = 'origin_path: '
 " open_type(edit, vsplit, split, tabedit)
 let g:partial#open_type = 'edit'
 
@@ -18,7 +19,7 @@ let g:partial#open_type = 'edit'
 " Return: dict{head_pattern, tail_pattern}
 function! partial#_filetype_surround_pattern(filetype) abort
   return {
-        \ 'head_pattern': g:partial#comment_out_symbols[a:filetype] . g:partial#head_string . g:partial#head_path_prefix,
+        \ 'head_pattern': g:partial#comment_out_symbols[a:filetype] . g:partial#head_string . g:partial#partial_path_prefix,
         \ 'tail_pattern': g:partial#comment_out_symbols[a:filetype] . g:partial#tail_string,
         \ }
 endfunction
