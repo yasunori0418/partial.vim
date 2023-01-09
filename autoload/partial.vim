@@ -99,14 +99,13 @@ endfunction
 
 " Name: partial#open
 " Description: Create a file containing the code to be partial and open it in a new buffer.
-" Params: string(filetype), string(open_type)
+" Params: string(filetype)
 " Return: void
-function! partial#open(filetype, open_type = g:partial#open_type) abort
+function! partial#open(filetype) abort
   let partial_range = partial#_get_range(a:filetype)
   if empty(partial_range)
     return
   endif
-  let partial_line = partial#_get_line(partial_range)
   let partial_file_path = partial#_get_file_path(partial_range)
   let partial_directory = fnamemodify(partial_file_path, ':h')
 
@@ -115,11 +114,11 @@ function! partial#open(filetype, open_type = g:partial#open_type) abort
   endif
 
   if !filereadable(partial_file_path)
-    call writefile(partial_line, partial_file_path, 'b')
+    call partial#_get_line(partial_range)->writefile(partial_file_path, 'b')
   endif
 
-  if a:open_type =~# 'edit\|vsplit\|split\|tabedit'
-    execute a:open_type partial_file_path
+  if g:partial#open_type =~# 'edit\|vsplit\|split\|tabedit'
+    execute g:partial#open_type partial_file_path
   else
     echohl WarningMsg
     echomsg 'Wrong g:partial#open_type => ' . g:partial#open_type
