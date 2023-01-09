@@ -8,7 +8,7 @@ let g:partial#comment_out_symbols = {
   \ }
 let g:partial#head_string = ' <% '
 let g:partial#tail_string = ' %>'
-let g:partial#head_path_prefix = ''
+let g:partial#head_path_prefix = 'partial_path: '
 " open_type(edit, vsplit, split, tabedit)
 let g:partial#open_type = 'edit'
 
