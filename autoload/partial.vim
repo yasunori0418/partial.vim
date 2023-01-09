@@ -114,7 +114,10 @@ function! partial#open(filetype, open_type = g:partial#open_type) abort
     call mkdir(partial_directory)
   endif
 
-  call writefile(partial_line, partial_file_path, 'b')
+  if !filereadable(partial_file_path)
+    call writefile(partial_line, partial_file_path, 'b')
+  endif
+
   if a:open_type =~# 'edit\|vsplit\|split\|tabedit'
     execute a:open_type partial_file_path
   else
