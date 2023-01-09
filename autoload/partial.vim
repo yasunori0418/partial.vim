@@ -6,10 +6,10 @@ let g:partial#comment_out_symbols = {
   \ 'vim': '"',
   \ 'lua': '--',
   \ }
-let g:partial#head_string = ' <% '
+let g:partial#head_string = ' <%'
 let g:partial#tail_string = ' %>'
-let g:partial#partial_path_prefix = 'partial_path: '
-let g:partial#origin_path_prefix = 'origin_path: '
+let g:partial#partial_path_prefix = ' partial_path: '
+let g:partial#origin_path_prefix = ' origin_path: '
 " open_type(edit, vsplit, split, tabedit)
 let g:partial#open_type = 'edit'
 
@@ -24,11 +24,11 @@ function! partial#__filetype_surround_pattern(filetype) abort
         \ }
 endfunction
 
-" Name: partial#_get_range
+" Name: partial#get_origin_range
 " Description:  Get the line number of the range you want to partial file.
 " Params: string(filetype)
 " Return: dict{ origin_path, origin_directory, startline, endline, surround_patterns, filetype }
-function! partial#_get_range(filetype) abort
+function! partial#get_origin_range(filetype) abort
   let surround_patterns = partial#__filetype_surround_pattern(a:filetype)
   let startline = search(surround_patterns.head_pattern, 'bcW')
   let endline = search(surround_patterns.tail_pattern, 'nW')
@@ -99,13 +99,13 @@ function! partial#_get_line(range) abort
     let home_dir_env = '$USERPROFILE'
   endif
 
-  let origin_lines = getline(a:range.startline + 1, a:range.endline - 1)
+  let origin_lines = getline(a:range.startline, a:range.endline - 1)
   let partial_head_string = g:partial#comment_out_symbols[a:range.filetype]
-                          \ . g:partial#head_string
                           \ . g:partial#origin_path_prefix
                           \ . a:range.origin_path->substitute(expand(home_dir_env), home_dir_env, '')
+                          \ . g:partial#tail_string
 
-  call insert(origin_lines, partial_head_string)
+  call insert(origin_lines, partial_head_string, 1)
   return origin_lines
 endfunction
 
@@ -115,7 +115,7 @@ endfunction
 " Params: string(filetype)
 " Return: void
 function! partial#open(filetype) abort
-  let partial_range = partial#_get_range(a:filetype)
+  let partial_range = partial#get_origin_range(a:filetype)
   if empty(partial_range)
     return
   endif
