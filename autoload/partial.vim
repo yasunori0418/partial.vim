@@ -27,15 +27,15 @@ endfunction
 " Name: partial#_get_range
 " Description:  Get the line number of the range you want to partial file.
 " Params: string(filetype)
-" Return: dict{ bufname, bufcwd, startline, endline, surround_patterns }
+" Return: dict{ origin_path, origin_directory, startline, endline, surround_patterns, filetype }
 function! partial#_get_range(filetype) abort
   let surround_patterns = partial#_filetype_surround_pattern(a:filetype)
-  let origin_startline = search(surround_patterns['head_pattern'], 'bcW')
-  let origin_endline = search(surround_patterns['tail_pattern'], 'nW')
-  let origin_bufname = bufname('%')
-  let origin_bufcwd = fnamemodify(origin_bufname, ':p:h')
+  let startline = search(surround_patterns.head_pattern, 'bcW')
+  let endline = search(surround_patterns.tail_pattern, 'nW')
+  let origin_path = fnamemodify(bufname('%'), ':p')->substitute(expand(g:partial#home_dir), g:partial#home_dir, '')
+  let origin_directory = fnamemodify(origin_path, ':p:h')
 
-  if origin_startline == 0 || origin_endline == 0
+  if startline == 0 || endline == 0
     echohl WarningMsg
     echomsg 'Not found partial tag.'
     echohl None
@@ -44,11 +44,12 @@ function! partial#_get_range(filetype) abort
   endif
 
   return {
-        \ 'bufname': origin_bufname,
-        \ 'bufcwd': origin_bufcwd,
-        \ 'startline': origin_startline,
-        \ 'endline': origin_endline,
+        \ 'origin_path': origin_path,
+        \ 'origin_directory': origin_directory,
+        \ 'startline': startline,
+        \ 'endline': endline,
         \ 'surround_patterns': surround_patterns,
+        \ 'filetype': a:filetype,
         \ }
 endfunction
 
@@ -65,9 +66,9 @@ function! partial#_get_file_path(range) abort
   else
 
     if g:partial#use_os_type ==# 'posix'
-      return a:range['bufcwd'] . '/' . path_string
+      return a:range.origin_directory . '/' . path_string
     elseif g:partial#use_os_type ==# 'windows'
-      return a:range['bufcwd'] . '\' . path_string
+      return a:range.origin_directory . '\' . path_string
     endif
   endif
 endfunction
@@ -92,7 +93,10 @@ endfunction
 " Params: dict(_get_range)
 " Return: list[...]
 function! partial#_get_line(range) abort
-  return getbufline(a:range.bufname, a:range.startline + 1, a:range.endline - 1)
+  let origin_lines = getline(a:range.startline, a:range.endline - 1)
+  let partial_head_string = g:partial#comment_out_symbols[a:range.filetype] . g:partial#head_string . g:partial#origin_path_prefix . a:range.origin_path
+  call insert(origin_lines, partial_head_string)
+  return origin_lines
 endfunction
 
 " Name: partial#open
