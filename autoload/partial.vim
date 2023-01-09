@@ -32,7 +32,7 @@ function! partial#_get_range(filetype) abort
   let surround_patterns = partial#_filetype_surround_pattern(a:filetype)
   let startline = search(surround_patterns.head_pattern, 'bcW')
   let endline = search(surround_patterns.tail_pattern, 'nW')
-  let origin_path = fnamemodify(bufname('%'), ':p')->substitute(expand(g:partial#home_dir), g:partial#home_dir, '')
+  let origin_path = fnamemodify(bufname('%'), ':p')
   let origin_directory = fnamemodify(origin_path, ':p:h')
 
   if startline == 0 || endline == 0
@@ -93,8 +93,12 @@ endfunction
 " Params: dict(_get_range)
 " Return: list[...]
 function! partial#_get_line(range) abort
-  let origin_lines = getline(a:range.startline, a:range.endline - 1)
-  let partial_head_string = g:partial#comment_out_symbols[a:range.filetype] . g:partial#head_string . g:partial#origin_path_prefix . a:range.origin_path
+  let origin_lines = getline(a:range.startline + 1, a:range.endline - 1)
+  let partial_head_string = g:partial#comment_out_symbols[a:range.filetype]
+                          \ . g:partial#head_string
+                          \ . g:partial#origin_path_prefix
+                          \ . a:range.origin_path->substitute(expand(g:partial#home_dir), g:partial#home_dir, '')
+
   call insert(origin_lines, partial_head_string)
   return origin_lines
 endfunction
