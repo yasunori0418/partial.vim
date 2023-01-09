@@ -62,9 +62,6 @@ function! partial#_get_file_path(range) abort
   if partial#_is_absolute_path(path_string)
     return path_string
   else
-    if match(path_string, '\.\W') == 0
-      let path_string = substitute(path_string, '\.\W', '', '')
-    end
 
     if g:partial#use_os_type ==# 'posix'
       return a:range['bufcwd'] . '/' . path_string
