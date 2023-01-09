@@ -54,10 +54,18 @@ function! partial#get_range_from_origin(filetype) abort
         \ }
 endfunction
 
-" Name: partial#get_partial_range
-" Description:
-" Params: string(filetype)
-" Return: dict{}
+" Name: partial#get_range_from_partial
+" Description: From the original file information attached when creating the partial file,
+"             get the partial range of original file.
+" Return: dict{origin_path, partial_path, startline, endline}
+function! partial#get_range_from_partial() abort
+  return {
+        \ 'origin_path': '',
+        \ 'partial_path': '',
+        \ 'startline': '',
+        \ 'endline': '',
+        \ }
+endfunction
 
 " Name: partial#_get_file_path
 " Description: Extract the file path specified in the startline.
