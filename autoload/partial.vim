@@ -65,9 +65,9 @@ function! partial#_get_file_path(range) abort
     return path_string
   else
 
-    if g:partial#use_os_type ==# 'posix'
+    if has('linux') || has('mac')
       return a:range.origin_directory . '/' . path_string
-    elseif g:partial#use_os_type ==# 'windows'
+    elseif has('win64')
       return a:range.origin_directory . '\' . path_string
     endif
   endif
@@ -81,9 +81,9 @@ function! partial#__is_absolute_path(path) abort
   let posix_absolute_pattern = '/'
   let windows_absolute_pattern = '\u:\'
 
-  if g:partial#use_os_type ==# 'posix'
+  if has('linux') || has('mac')
     return match(a:path, posix_absolute_pattern) == 0
-  elseif g:partial#use_os_type ==# 'windows'
+  elseif has('win64')
     return match(a:path, windows_absolute_pattern) == 0
   endif
 endfunction
@@ -93,11 +93,17 @@ endfunction
 " Params: dict(_get_range)
 " Return: list[...]
 function! partial#_get_line(range) abort
+  if has('linux') || has('mac')
+    let home_dir_env = '$HOME'
+  elseif has('win64')
+    let home_dir_env = '$USERPROFILE'
+  endif
+
   let origin_lines = getline(a:range.startline + 1, a:range.endline - 1)
   let partial_head_string = g:partial#comment_out_symbols[a:range.filetype]
                           \ . g:partial#head_string
                           \ . g:partial#origin_path_prefix
-                          \ . a:range.origin_path->substitute(expand(g:partial#home_dir), g:partial#home_dir, '')
+                          \ . a:range.origin_path->substitute(expand(home_dir_env), home_dir_env, '')
 
   call insert(origin_lines, partial_head_string)
   return origin_lines
