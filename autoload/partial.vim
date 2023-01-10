@@ -21,6 +21,7 @@ function! partial#surround_pattern(filetype) abort
   return {
         \ 'head_pattern': g:partial#comment_out_symbols[a:filetype] . g:partial#head_string . g:partial#partial_path_prefix,
         \ 'tail_pattern': g:partial#comment_out_symbols[a:filetype] . g:partial#tail_string,
+        \ 'partial_to_origin': g:partial#comment_out_symbols[a:filetype] . g:partial#origin_path_prefix
         \ }
 endfunction
 
@@ -59,11 +60,21 @@ endfunction
 "             get the partial range of original file.
 " Return: dict{origin_path, partial_path, startline, endline}
 function! partial#get_range_from_partial() abort
+  let surround_patterns = partial#surround_pattern(&filetype)
+  let origin_head_string = search(surround_patterns.head_pattern, 'bcW')->getline()
+  let origin_path = search(surround_patterns.partial_to_origin, 'nW')
+                  \ ->getline()
+                  \ ->substitute(surround_patterns.partial_to_origin, '', '')
+                  \ ->substitute(g:partial#tail_string, '', '')
+  execute 'vsplit' origin_path
+  let startline = search(origin_head_string, 'cW')
+  let endline = search(surround_patterns.tail_pattern, 'nW')
+
   return {
-        \ 'origin_path': '',
-        \ 'partial_path': '',
-        \ 'startline': '',
-        \ 'endline': '',
+        \ 'origin_head_string': origin_head_string,
+        \ 'origin_path': origin_path,
+        \ 'startline': startline,
+        \ 'endline': endline,
         \ }
 endfunction
 
