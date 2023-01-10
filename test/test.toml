@@ -2,7 +2,7 @@
 repo = 'yasunori-kirin0418/partial.vim'
 on_cmd = ['PartialOpen', 'PartialVsplit', 'PartialSplit', 'PartialTabedit', 'PartialSync']
 hook_add = '''
-" <% partial_path: ./partial/partial.vim
+" <% partial_path: ./partial/partial1.vim
 " e.g. some vimscript configurations...1
 " e.g. some vimscript configurations...2
 " e.g. some vimscript configurations...3
@@ -21,7 +21,7 @@ hook_add = '''
 repo = 'yasunori-kirin0418/partial.vim'
 on_cmd = ['PartialOpen', 'PartialVsplit', 'PartialSplit', 'PartialTabedit', 'PartialSync']
 lua_add = '''
--- <% partial_path: ./partial/partial.lua
+-- <% partial_path: ./partial/partial1.lua
 -- e.g. some vimscript configurations...1
 -- e.g. some vimscript configurations...2
 -- e.g. some vimscript configurations...3
@@ -40,7 +40,7 @@ lua_add = '''
 repo = 'yasunori-kirin0418/partial.vim'
 on_cmd = ['PartialOpen', 'PartialVsplit', 'PartialSplit', 'PartialTabedit', 'PartialSync']
 hook_add = '''
-" <% partial_path: ./partial/partial.vim
+" <% partial_path: ./partial/partial2.vim
 
 " e.g. some vimscript configurations...
 
@@ -53,7 +53,7 @@ hook_add = '''
 repo = 'yasunori-kirin0418/partial.vim'
 on_cmd = ['PartialOpen', 'PartialVsplit', 'PartialSplit', 'PartialTabedit', 'PartialSync']
 hook_add = '''
-" <% partial_path: ./partial/partial.vim
+" <% partial_path: ./partial/partial3.vim
 
 " e.g. some vimscript configurations...
 
