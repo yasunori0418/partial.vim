@@ -140,7 +140,7 @@ endfunction
 "             If the file already exists, open it.
 " Params: string(filetype)
 " Return: void
-function! partial#open(filetype) abort
+function! partial#open(filetype, open_type = g:partial#open_type) abort
   let partial_range = partial#get_range_from_origin(a:filetype)
   if empty(partial_range)
     return
@@ -156,11 +156,11 @@ function! partial#open(filetype) abort
     call partial#_get_line(partial_range)->writefile(partial_file_path, 'b')
   endif
 
-  if g:partial#open_type =~# 'edit\|vsplit\|split\|tabedit'
-    execute g:partial#open_type partial_file_path
+  if a:open_type =~# 'edit\|vsplit\|split\|tabedit'
+    execute a:open_type partial_file_path
   else
     echohl WarningMsg
-    echomsg 'Wrong g:partial#open_type => ' . g:partial#open_type
+    echomsg 'Wrong open_type => ' . a:open_type
     echohl None
   endif
 endfunction
