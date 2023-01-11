@@ -131,7 +131,7 @@ function! partial#_get_line(range) abort
                           \ . a:range.origin_path->substitute(expand(home_dir_env), home_dir_env, '')
                           \ . g:partial#tail_string
 
-  call insert(origin_lines, partial_head_string, 1)
+  call add(origin_lines, partial_head_string)
   return origin_lines
 endfunction
 
