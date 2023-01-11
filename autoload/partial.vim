@@ -69,6 +69,7 @@ function! partial#get_range_from_partial() abort
   execute 'vsplit' origin_path
   let startline = search(origin_head_string, 'cW')
   let endline = search(surround_patterns.tail_pattern, 'nW')
+  execute 'bdelete' bufname('%')
 
   return {
         \ 'origin_head_string': origin_head_string,
