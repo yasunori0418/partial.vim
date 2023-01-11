@@ -1,5 +1,4 @@
 " <% partial_path: ./partial/partial1.vim
-" origin_path: $HOME/Project/partial.vim/test/test.toml %>
 " e.g. some vimscript configurations...1
 " e.g. some vimscript configurations...2
 " e.g. some vimscript configurations...3
@@ -10,3 +9,4 @@
 " e.g. some vimscript configurations...8
 " e.g. some vimscript configurations...9
 " e.g. some vimscript configurations...10
+" origin_path: $HOME/Project/partial.vim/test/test.toml %>
