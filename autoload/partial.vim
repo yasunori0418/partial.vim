@@ -114,11 +114,11 @@ function! partial#__is_absolute_path(path) abort
   endif
 endfunction
 
-" Name: partial#_get_line
+" Name: partial#_get_line_from_origin
 " Description: Get the string of the partial range as an array.
 " Params: dict(get_range_from_origin)
 " Return: list
-function! partial#_get_line(range) abort
+function! partial#_get_line_from_origin(range) abort
   if has('linux') || has('mac')
     let home_dir_env = '$HOME'
   elseif has('win64')
@@ -153,7 +153,7 @@ function! partial#open(filetype, open_type = g:partial#open_type) abort
   endif
 
   if !filereadable(partial_file_path)
-    call partial#_get_line(partial_range)->writefile(partial_file_path, 'b')
+    call partial#_get_line_from_origin(partial_range)->writefile(partial_file_path, 'b')
   endif
 
   if a:open_type =~# 'edit\|vsplit\|split\|tabedit'
@@ -167,7 +167,6 @@ endfunction
 
 " Name: partial#update_origin
 " Description: Update the original file from the partial file.
-" Params:
 " Return: void
 
 
