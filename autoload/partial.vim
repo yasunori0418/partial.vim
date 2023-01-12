@@ -56,27 +56,28 @@ function! partial#get_range_from_origin(filetype) abort
 endfunction
 
 " Name: partial#get_range_from_partial
-" Description: From the original file information attached when creating the partial file,
-"             get the partial range of original file.
+" Description: 
 " Return: dict{origin_path, partial_path, startline, endline}
-function! partial#get_range_from_partial() abort
+function! partial#update_origin() abort
   let surround_patterns = partial#surround_pattern(&filetype)
-  let origin_head_string = search(surround_patterns.head_pattern, 'bcW')->getline()
-  let origin_path = search(surround_patterns.partial_to_origin, 'nW')
-                  \ ->getline()
+
+  let partial_startline = search(surround_patterns.head_pattern, 'bcW')
+  let partial_endline = search(surround_patterns.partial_to_origin, 'nW')
+
+  " Inner range excluding surround.
+  execute (partial_startline + 1) . ',' . (partial_endline - 1) . 'yank'
+  let origin_head_string = getline(partial_startline)
+  let origin_path = getline(partial_endline)
                   \ ->substitute(surround_patterns.partial_to_origin, '', '')
                   \ ->substitute(g:partial#tail_string, '', '')
-  execute 'vsplit' origin_path
-  let startline = search(origin_head_string, 'cW')
-  let endline = search(surround_patterns.tail_pattern, 'nW')
-  execute 'bdelete' bufname('%')
 
-  return {
-        \ 'origin_head_string': origin_head_string,
-        \ 'origin_path': origin_path,
-        \ 'startline': startline,
-        \ 'endline': endline,
-        \ }
+  execute 'vsplit' origin_path
+  let origin_startline = search(origin_head_string, 'cW')
+  let origin_endline = search(surround_patterns.tail_pattern, 'nW')
+
+  execute '%foldopen'
+  execute (origin_startline + 1) . ',' . (origin_endline - 1) . 'delete' '_'
+  execute origin_startline . 'put'
 endfunction
 
 " Name: partial#_get_file_path
