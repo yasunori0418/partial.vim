@@ -9,4 +9,23 @@
 " e.g. some vimscript configurations...8
 " e.g. some vimscript configurations...9
 " e.g. some vimscript configurations...10
+" e.g. some vimscript configurations...12
+" e.g. some vimscript configurations...13
+" e.g. some vimscript configurations...14
+" e.g. some vimscript configurations...15
+" e.g. some vimscript configurations...16
+" e.g. some vimscript configurations...17
+" e.g. some vimscript configurations...18
+" e.g. some vimscript configurations...19
+" e.g. some vimscript configurations...20
+" e.g. some vimscript configurations...21
+" e.g. some vimscript configurations...22
+" e.g. some vimscript configurations...23
+" e.g. some vimscript configurations...24
+" e.g. some vimscript configurations...25
+" e.g. some vimscript configurations...26
+" e.g. some vimscript configurations...27
+" e.g. some vimscript configurations...28
+" e.g. some vimscript configurations...29
+" e.g. some vimscript configurations...30
 " origin_path: $HOME/Project/partial.vim/test/test.toml %>
