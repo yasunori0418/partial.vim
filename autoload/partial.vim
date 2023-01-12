@@ -115,7 +115,7 @@ function! partial#__is_absolute_path(path) abort
 endfunction
 
 " Name: partial#_get_line_from_origin
-" Description: Get the string of the partial range as an array.
+" Description: Gets an array of strings to want from the original file to the partial file.
 " Params: dict(get_range_from_origin)
 " Return: list
 function! partial#_get_line_from_origin(range) abort
@@ -164,11 +164,6 @@ function! partial#open(filetype, open_type = g:partial#open_type) abort
     echohl None
   endif
 endfunction
-
-" Name: partial#update_origin
-" Description: Update the original file from the partial file.
-" Return: void
-
 
 " Name: partial#update_partial
 " Description: Update a partial file from the original file.
