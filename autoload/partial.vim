@@ -165,8 +165,3 @@ function! partial#open(filetype, open_type = g:partial#open_type) abort
     echohl None
   endif
 endfunction
-
-" Name: partial#update_partial
-" Description: Update a partial file from the original file.
-" Params: string(filetype)
-" Return: void
