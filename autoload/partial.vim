@@ -120,7 +120,7 @@ endfunction
 "              And return of created file name by full path.
 " Note: Set the argument to true to create a file.
 "       Set to false to get only the file path.
-" Params: boolean(create_flag)
+" Params: boolean(create_flag), string(filetype)
 " Return: string(file_path)
 function! partial#create(create_flag, filetype) abort
   let partial_range = partial#get_range_from_origin(a:filetype)
