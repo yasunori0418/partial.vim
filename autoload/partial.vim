@@ -115,11 +115,11 @@ function! partial#__is_absolute_path(path) abort
   endif
 endfunction
 
-" Name: partial#_get_line_from_origin
+" Name: partial#_create
 " Description: Gets an array of strings to want from the original file to the partial file.
 " Params: dict(get_range_from_origin)
-" Return: list
-function! partial#_get_line_from_origin(range) abort
+" Return: string(file_path)
+function! partial#_create(range) abort
   if has('linux') || has('mac')
     let home_dir_env = '$HOME'
   elseif has('win64')
@@ -128,12 +128,21 @@ function! partial#_get_line_from_origin(range) abort
 
   let origin_lines = getline(a:range.startline, a:range.endline - 1)
   let partial_head_string = g:partial#comment_out_symbols[a:range.filetype]
-                          \ . g:partial#origin_path_prefix
-                          \ . a:range.origin_path->substitute(expand(home_dir_env), home_dir_env, '')
-                          \ . g:partial#tail_string
-
+                        \ . g:partial#origin_path_prefix
+                        \ . a:range.origin_path->substitute(expand(home_dir_env), home_dir_env, '')
+                        \ . g:partial#tail_string
   call add(origin_lines, partial_head_string)
-  return origin_lines
+
+  let partial_file_path = partial#_get_file_path(a:range)
+  let partial_directory = fnamemodify(partial_file_path, ':h')
+
+  if !isdirectory(partial_directory)
+    call mkdir(partial_directory, 'p')
+  endif
+
+  if !filereadable(partial_file_path)
+    call writefile(origin_lines, partial_file_path)
+  end
 endfunction
 
 " Name: partial#open
