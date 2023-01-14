@@ -115,47 +115,64 @@ function! partial#__is_absolute_path(path) abort
   endif
 endfunction
 
-" Name: partial#_get_line_from_origin
-" Description: Gets an array of strings to want from the original file to the partial file.
-" Params: dict(get_range_from_origin)
-" Return: list
-function! partial#_get_line_from_origin(range) abort
+" Name: partial#create
+" Description: Create a partial file with the range taken from the original file.
+"              And return of created file name by full path.
+" Note: Set the argument to true to create a file.
+"       Set to false to get only the file path.
+" Params: boolean(create_flag)
+" Return: string(file_path)
+function! partial#create(create_flag, filetype) abort
+  let partial_range = partial#get_range_from_origin(a:filetype)
+  if empty(partial_range)
+    return
+  endif
+
+  let partial_file_path = partial#_get_file_path(partial_range)
+  if !a:create_flag
+    if filereadable(partial_file_path)
+      return partial_file_path
+    else
+      echohl WarningMsg
+      echomsg 'Not found partial tag.'
+      echohl None
+      return
+    endif
+  endif
+
   if has('linux') || has('mac')
     let home_dir_env = '$HOME'
   elseif has('win64')
     let home_dir_env = '$USERPROFILE'
   endif
 
-  let origin_lines = getline(a:range.startline, a:range.endline - 1)
-  let partial_head_string = g:partial#comment_out_symbols[a:range.filetype]
-                          \ . g:partial#origin_path_prefix
-                          \ . a:range.origin_path->substitute(expand(home_dir_env), home_dir_env, '')
-                          \ . g:partial#tail_string
+  let origin_lines = getline(partial_range.startline, partial_range.endline - 1)
+  let partial_tail_string = g:partial#comment_out_symbols[partial_range.filetype]
+                        \ . g:partial#origin_path_prefix
+                        \ . partial_range.origin_path->substitute(expand(home_dir_env), home_dir_env, '')
+                        \ . g:partial#tail_string
+  call add(origin_lines, partial_tail_string)
 
-  call add(origin_lines, partial_head_string)
-  return origin_lines
+  let partial_directory = fnamemodify(partial_file_path, ':h')
+  if !isdirectory(partial_directory)
+    call mkdir(partial_directory, 'p')
+  endif
+
+  call writefile(origin_lines, partial_file_path)
+  return partial_file_path
 endfunction
 
 " Name: partial#open
 " Description: Create a file containing the code to be partial and open it in a new buffer.
 "             If the file already exists, open it.
-" Params: string(filetype)
+" Note: Set the first argument to true to create a file.
+"       Set to false if you just want to open the file.
+"       If creating a file that already exists,
+"       recreate the partial file with the contents of the original file.
+" Params: boolean(create_flag), string(filetype), string(open_type)
 " Return: void
-function! partial#open(filetype, open_type = g:partial#open_type) abort
-  let partial_range = partial#get_range_from_origin(a:filetype)
-  if empty(partial_range)
-    return
-  endif
-  let partial_file_path = partial#_get_file_path(partial_range)
-  let partial_directory = fnamemodify(partial_file_path, ':h')
-
-  if !isdirectory(partial_directory)
-    call mkdir(partial_directory)
-  endif
-
-  if !filereadable(partial_file_path)
-    call partial#_get_line_from_origin(partial_range)->writefile(partial_file_path, 'b')
-  endif
+function! partial#open(create_flag, filetype, open_type = g:partial#open_type) abort
+  let partial_file_path = partial#create(a:create_flag, a:filetype)
 
   if a:open_type =~# 'edit\|vsplit\|split\|tabedit'
     execute a:open_type partial_file_path
