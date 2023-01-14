@@ -165,23 +165,14 @@ endfunction
 " Name: partial#open
 " Description: Create a file containing the code to be partial and open it in a new buffer.
 "             If the file already exists, open it.
-" Params: string(filetype)
+" Note: Set the first argument to true to create a file.
+"       Set to false if you just want to open the file.
+"       If creating a file that already exists,
+"       recreate the partial file with the contents of the original file.
+" Params: boolean(create_flag), string(filetype), string(open_type)
 " Return: void
-function! partial#open(filetype, open_type = g:partial#open_type) abort
-  let partial_range = partial#get_range_from_origin(a:filetype)
-  if empty(partial_range)
-    return
-  endif
-  let partial_file_path = partial#_get_file_path(partial_range)
-  let partial_directory = fnamemodify(partial_file_path, ':h')
-
-  if !isdirectory(partial_directory)
-    call mkdir(partial_directory)
-  endif
-
-  if !filereadable(partial_file_path)
-    call partial#_get_line_from_origin(partial_range)->writefile(partial_file_path, 'b')
-  endif
+function! partial#open(create_flag, filetype, open_type = g:partial#open_type) abort
+  let partial_file_path = partial#create(a:create_flag, a:filetype)
 
   if a:open_type =~# 'edit\|vsplit\|split\|tabedit'
     execute a:open_type partial_file_path
