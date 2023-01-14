@@ -115,34 +115,51 @@ function! partial#__is_absolute_path(path) abort
   endif
 endfunction
 
-" Name: partial#_create
-" Description: Gets an array of strings to want from the original file to the partial file.
-" Params: dict(get_range_from_origin)
+" Name: partial#create
+" Description: Create a partial file with the range taken from the original file.
+"              And return of created file name by full path.
+" Note: Set the argument to true to create a file.
+"       Set to false to get only the file path.
+" Params: boolean(create_flag)
 " Return: string(file_path)
-function! partial#_create(range) abort
+function! partial#create(create_flag, filetype) abort
+  let partial_range = partial#get_range_from_origin(a:filetype)
+  if empty(partial_range)
+    return
+  endif
+
+  let partial_file_path = partial#_get_file_path(partial_range)
+  if !a:create_flag
+    if filereadable(partial_file_path)
+      return partial_file_path
+    else
+      echohl WarningMsg
+      echomsg 'Not found partial tag.'
+      echohl None
+      return
+    endif
+  endif
+
   if has('linux') || has('mac')
     let home_dir_env = '$HOME'
   elseif has('win64')
     let home_dir_env = '$USERPROFILE'
   endif
 
-  let origin_lines = getline(a:range.startline, a:range.endline - 1)
-  let partial_head_string = g:partial#comment_out_symbols[a:range.filetype]
+  let origin_lines = getline(partial_range.startline, partial_range.endline - 1)
+  let partial_tail_string = g:partial#comment_out_symbols[partial_range.filetype]
                         \ . g:partial#origin_path_prefix
-                        \ . a:range.origin_path->substitute(expand(home_dir_env), home_dir_env, '')
+                        \ . partial_range.origin_path->substitute(expand(home_dir_env), home_dir_env, '')
                         \ . g:partial#tail_string
-  call add(origin_lines, partial_head_string)
+  call add(origin_lines, partial_tail_string)
 
-  let partial_file_path = partial#_get_file_path(a:range)
   let partial_directory = fnamemodify(partial_file_path, ':h')
-
   if !isdirectory(partial_directory)
     call mkdir(partial_directory, 'p')
   endif
 
-  if !filereadable(partial_file_path)
-    call writefile(origin_lines, partial_file_path)
-  end
+  call writefile(origin_lines, partial_file_path)
+  return partial_file_path
 endfunction
 
 " Name: partial#open
