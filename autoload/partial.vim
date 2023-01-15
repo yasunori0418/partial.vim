@@ -106,9 +106,9 @@ endfunction
 " Return: boolean
 function! partial#__is_absolute_path(path) abort
   if has('linux') || has('mac')
-    return match(a:path, '/') == 0
+    return match(a:path, '/') == 0 || match(a:path, '\$') == 0
   elseif has('win64')
-    return match(a:path, '\u:\\') == 0
+    return match(a:path, '\u:\\') == 0 || match(a:path, '\$') == 0
   endif
 endfunction
 
