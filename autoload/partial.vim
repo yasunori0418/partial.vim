@@ -105,13 +105,10 @@ endfunction
 " Params: string(path)
 " Return: boolean
 function! partial#__is_absolute_path(path) abort
-  let posix_absolute_pattern = '/'
-  let windows_absolute_pattern = '\u:\'
-
   if has('linux') || has('mac')
-    return match(a:path, posix_absolute_pattern) == 0
+    return match(a:path, '/') == 0
   elseif has('win64')
-    return match(a:path, windows_absolute_pattern) == 0
+    return match(a:path, '\u:\\') == 0
   endif
 endfunction
 
