@@ -89,13 +89,13 @@ function! partial#_get_file_path(range) abort
   let path_string = substitute(head_string, a:range.surround_patterns.head_pattern, '', '')
 
   if partial#__is_absolute_path(path_string)
-    return path_string
+    return fnamemodify(path_string, ':p:.')
   else
 
     if has('linux') || has('mac')
-      return a:range.origin_directory . '/' . path_string
+      return fnamemodify(a:range.origin_directory . '/' . path_string, ':p:.')
     elseif has('win64')
-      return a:range.origin_directory . '\' . path_string
+      return fnamemodify(a:range.origin_directory . '\' . path_string, ':p:.')
     endif
   endif
 endfunction
