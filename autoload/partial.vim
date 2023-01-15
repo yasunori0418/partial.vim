@@ -131,7 +131,7 @@ function! partial#create(create_flag, filetype) abort
       return partial_file_path
     else
       echohl WarningMsg
-      echomsg 'Not found partial tag.'
+      echomsg 'Not found partial file.'
       echohl None
       return
     endif
