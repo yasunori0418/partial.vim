@@ -17,7 +17,7 @@ let g:partial#open_type = 'edit'
 " Description: Update content from partial file to original file.
 " Note: Run with the partial file open.
 " Return: void
-function! partial#update_origin() abort
+function! partial#update_origin(open_type = g:partial#open_type) abort
   let surround_patterns = partial#helper#surround_pattern(&filetype)
 
   let partial_startline = search(surround_patterns.head_pattern, 'bcW')
@@ -37,7 +37,7 @@ function! partial#update_origin() abort
                   \ ->substitute(surround_patterns.partial_to_origin, '', '')
                   \ ->substitute(g:partial#tail_string, '', '')
 
-  execute 'vsplit' origin_path
+  execute a:open_type origin_path
   let origin_startline = search(origin_head_string, 'cW')
   let origin_endline = search(surround_patterns.tail_pattern, 'nW')
 
