@@ -14,7 +14,8 @@ let g:partial#origin_path_prefix = ' origin_path: '
 let g:partial#open_type = 'edit'
 
 " Name: partial#update_origin
-" Description: 
+" Description: Update content from partial file to original file.
+" Note: Run with the partial file open.
 " Return: void
 function! partial#update_origin() abort
   let surround_patterns = partial#helper#surround_pattern(&filetype)
