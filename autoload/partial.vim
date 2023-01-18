@@ -2,9 +2,9 @@
 " Author: yasunori-kirin0418
 " License: MIT
 
-let g:partial#comment_out_symbols = {
-  \ 'vim': '"',
-  \ 'lua': '--',
+let g:partial#comment_out_symbols = #{
+  \ vim: '"',
+  \ lua: '--',
   \ }
 let g:partial#head_string = ' <%'
 let g:partial#tail_string = ' %>'
@@ -12,31 +12,6 @@ let g:partial#partial_path_prefix = ' partial_path: '
 let g:partial#origin_path_prefix = ' origin_path: '
 " open_type(edit, vsplit, split, tabedit)
 let g:partial#open_type = 'edit'
-
-" Name: partial#update_origin
-" Description: 
-" Return: void
-function! partial#update_origin() abort
-  let surround_patterns = partial#helper#surround_pattern(&filetype)
-
-  let partial_startline = search(surround_patterns.head_pattern, 'bcW')
-  let partial_endline = search(surround_patterns.partial_to_origin, 'nW')
-
-  " Inner range excluding surround.
-  execute (partial_startline + 1) . ',' . (partial_endline - 1) . 'yank'
-  let origin_head_string = getline(partial_startline)
-  let origin_path = getline(partial_endline)
-                  \ ->substitute(surround_patterns.partial_to_origin, '', '')
-                  \ ->substitute(g:partial#tail_string, '', '')
-
-  execute 'vsplit' origin_path
-  let origin_startline = search(origin_head_string, 'cW')
-  let origin_endline = search(surround_patterns.tail_pattern, 'nW')
-
-  execute '%foldopen'
-  execute (origin_startline + 1) . ',' . (origin_endline - 1) . 'delete' '_'
-  execute origin_startline . 'put'
-endfunction
 
 " Name: partial#create
 " Description: Create a partial file with the range taken from the original file.
@@ -105,3 +80,38 @@ function! partial#open(create_flag, filetype, open_type = g:partial#open_type) a
     echohl None
   endif
 endfunction
+
+" Name: partial#update_origin
+" Description: Update content from partial file to original file.
+" Note: Run with the partial file open.
+"       Open file for updated.
+" Return: void
+function! partial#update_origin(open_type = g:partial#open_type) abort
+  let surround_patterns = partial#helper#surround_pattern(&filetype)
+
+  let partial_startline = search(surround_patterns.head_pattern, 'bcW')
+  let partial_endline = search(surround_patterns.partial_to_origin, 'nW')
+
+  if partial_startline == 0 || partial_endline == 0
+    echohl WarningMsg
+    echomsg 'This file may not be a partial file.'
+    echomsg 'Or surround as a partial file may be broken.'
+    echohl None
+  endif
+
+  " Inner range excluding surround.
+  silent execute (partial_startline + 1) . ',' . (partial_endline - 1) . 'yank'
+  let origin_head_string = getline(partial_startline)
+  let origin_path = getline(partial_endline)
+                  \ ->substitute(surround_patterns.partial_to_origin, '', '')
+                  \ ->substitute(g:partial#tail_string, '', '')
+
+  execute a:open_type origin_path
+  let origin_startline = search(origin_head_string, 'cW')
+  let origin_endline = search(surround_patterns.tail_pattern, 'nW')
+
+  execute '%foldopen'
+  silent execute (origin_startline + 1) . ',' . (origin_endline - 1) . 'delete' '_'
+  silent execute origin_startline . 'put'
+endfunction
+
