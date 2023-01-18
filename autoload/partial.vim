@@ -31,7 +31,7 @@ function! partial#update_origin() abort
   endif
 
   " Inner range excluding surround.
-  execute (partial_startline + 1) . ',' . (partial_endline - 1) . 'yank'
+  silent execute (partial_startline + 1) . ',' . (partial_endline - 1) . 'yank'
   let origin_head_string = getline(partial_startline)
   let origin_path = getline(partial_endline)
                   \ ->substitute(surround_patterns.partial_to_origin, '', '')
@@ -42,8 +42,8 @@ function! partial#update_origin() abort
   let origin_endline = search(surround_patterns.tail_pattern, 'nW')
 
   execute '%foldopen'
-  execute (origin_startline + 1) . ',' . (origin_endline - 1) . 'delete' '_'
-  execute origin_startline . 'put'
+  silent execute (origin_startline + 1) . ',' . (origin_endline - 1) . 'delete' '_'
+  silent execute origin_startline . 'put'
 endfunction
 
 " Name: partial#create
