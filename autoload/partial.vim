@@ -23,6 +23,13 @@ function! partial#update_origin() abort
   let partial_startline = search(surround_patterns.head_pattern, 'bcW')
   let partial_endline = search(surround_patterns.partial_to_origin, 'nW')
 
+  if partial_startline == 0 || partial_endline == 0
+    echohl WarningMsg
+    echomsg 'This file may not be a partial file.'
+    echomsg 'Or surround as a partial file may be broken.'
+    echohl None
+  endif
+
   " Inner range excluding surround.
   execute (partial_startline + 1) . ',' . (partial_endline - 1) . 'yank'
   let origin_head_string = getline(partial_startline)
