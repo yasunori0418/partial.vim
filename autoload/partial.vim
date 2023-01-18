@@ -2,9 +2,9 @@
 " Author: yasunori-kirin0418
 " License: MIT
 
-let g:partial#comment_out_symbols = {
-  \ 'vim': '"',
-  \ 'lua': '--',
+let g:partial#comment_out_symbols = #{
+  \ vim: '"',
+  \ lua: '--',
   \ }
 let g:partial#head_string = ' <%'
 let g:partial#tail_string = ' %>'
