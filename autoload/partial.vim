@@ -84,6 +84,7 @@ endfunction
 " Name: partial#update_origin
 " Description: Update content from partial file to original file.
 " Note: Run with the partial file open.
+"       Open file for updated.
 " Return: void
 function! partial#update_origin(open_type = g:partial#open_type) abort
   let surround_patterns = partial#helper#surround_pattern(&filetype)
