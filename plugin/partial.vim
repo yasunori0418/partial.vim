@@ -6,3 +6,10 @@ if exists('g:loaded_partial_vim')
     finish
 endif
 let g:loaded_partial_vim = 1
+
+command! -bang -nargs=1 PartialOpen call partial#open(<bang>1, <f-args>)
+command! -bang -nargs=1 PartialTabedit call partial#open(<bang>1, <f-args>, 'tabedit')
+command! -bang -nargs=1 PartialVsplit call partial#open(<bang>1, <f-args>, 'vsplit')
+command! -bang -nargs=1 PartialSplit call partial#open(<bang>1, <f-args>, 'split')
+command! -bang -nargs=1 PartialEdit call partial#open(<bang>1, <f-args>, 'edit')
+command! PartialUpdate call partial#update_origin()
