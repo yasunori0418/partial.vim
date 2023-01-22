@@ -1,7 +1,7 @@
 *partial.jax*	日本語ヘルプ
 
-Version :
-Author  :
+Version : v0.1
+Author  : yasunori-kirin0418
 License : MIT license  {{{
     Permission is hereby granted, free of charge, to any person obtaining
     a copy of this software and associated documentation files (the
@@ -41,7 +41,7 @@ TODO				|partial-todo|
 *partial.vim* は
 
 最新版:
-https://github.com/user/partial.vim
+https://github.com/yasunori-kirin0418/partial.vim
 
 
 ==============================================================================
@@ -129,21 +129,6 @@ g:partial#open_type				*g:partial#open_type*
 
 						*partial#create()*
 partial#create({create-flag}, {filetype})
-
-
-partial#helper#get_file_path({range})	*partial#helper#get_file_path()*
-
-
-				*partial#helper#get_range_from_origin()*
-partial#helper#get_range_from_origin({filetype})
-
-
-					*partial#helper#is_absolute_path()*
-partial#helper#is_absolute_path({path})
-
-
-					*partial#helper#surround_pattern()*
-partial#helper#surround_pattern({filetype})
 
 
 						*partial#open()*
