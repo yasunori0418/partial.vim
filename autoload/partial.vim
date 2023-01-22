@@ -86,7 +86,7 @@ endfunction
 " Note: Run with the partial file open.
 "       Open file for updated.
 " Return: void
-function! partial#update_origin(open_type = g:partial#open_type) abort
+function! partial#update_origin() abort
   let surround_patterns = partial#helper#surround_pattern(&filetype)
 
   let partial_startline = search(surround_patterns.head_pattern, 'bcW')
@@ -100,18 +100,23 @@ function! partial#update_origin(open_type = g:partial#open_type) abort
   endif
 
   " Inner range excluding surround.
-  silent execute (partial_startline + 1) . ',' . (partial_endline - 1) . 'yank'
+  let partial_lines = getline(partial_startline + 1, partial_endline - 1)
   let origin_head_string = getline(partial_startline)
   let origin_path = getline(partial_endline)
                   \ ->substitute(surround_patterns.partial_to_origin, '', '')
                   \ ->substitute(g:partial#tail_string, '', '')
+                  \ ->expand()
 
-  execute a:open_type origin_path
+  if !bufloaded(origin_path)
+    call bufadd(origin_path)->bufload()
+  endif
+  let origin_bufname = bufname(origin_path)
+  execute 'buffer' origin_bufname
   let origin_startline = search(origin_head_string, 'cW')
   let origin_endline = search(surround_patterns.tail_pattern, 'nW')
 
   execute '%foldopen'
-  silent execute (origin_startline + 1) . ',' . (origin_endline - 1) . 'delete' '_'
-  silent execute origin_startline . 'put'
+  call deletebufline(origin_bufname, origin_startline + 1, origin_endline - 1)
+  call append(origin_startline, partial_lines)
 endfunction
 
