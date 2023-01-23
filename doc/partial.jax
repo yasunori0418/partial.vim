@@ -1,4 +1,4 @@
-*partial.jax*	日本語ヘルプ
+*partial.jax*	囲みの範囲を別ファイルにして、編集しやすくします。
 
 Version : v0.1
 Author  : yasunori-kirin0418
@@ -41,7 +41,7 @@ TODO				|partial-todo|
 *partial.vim* は囲みの範囲を別ファイルにして、編集できるようにします。
 また、編集した内容を元ファイルに反映できます。
 マークダウンのコードブロックや、|dein|で使用できるtomlファイル内で記述できるluaや
-vim scriptを別ファイルにすることで、LSPやフォーマッターを動かしやすくして編集しやすくします。
+vim scriptを別ファイルにすることで、LSPやフォーマッターを使えるようにして編集しやすくします。
 
 最新版:
 https://github.com/yasunori-kirin0418/partial.vim
@@ -58,70 +58,46 @@ https://github.com/yasunori-kirin0418/partial.vim
 ------------------------------------------------------------------------------
 変数						*partial-variables*
 
-partial#comment_out_symbols			*partial#comment_out_symbols*
-	既定値:  #{ vim: """, lua: "--", }
-
-
-g:partial#comment_out_symbols		*g:partial#comment_out_symbols*
-	既定値: = #{ vim: """, lua: "--", }
+g:partial#comment_out_symbols			*g:partial#comment_out_symbols*
+	既定値:  { 'vim': '"', 'lua': '--' }
 
 
 g:partial#head_string				*g:partial#head_string*
-	既定値: = " <%"
-
-
-g:partial#partial_path_prefix		*g:partial#partial_path_prefix*
-	既定値: = " partial_path: "
-
-
-partial#head_string				*partial#head_string*
-	既定値:  " <%"
+	既定値:  ' <%'
 
 
 g:partial#tail_string				*g:partial#tail_string*
-	既定値: = " %>"
-
-
-partial#tail_string				*partial#tail_string*
-	既定値:  " %>"
+	既定値:  ' %>'
 
 
 g:partial#origin_path_prefix			*g:partial#origin_path_prefix*
-	既定値: = " origin_path: "
+	既定値:  ' origin_path: '
 
 
-partial#partial_path_prefix			*partial#partial_path_prefix*
-	既定値:  " partial_path: "
-
-
-partial#origin_path_prefix			*partial#origin_path_prefix*
-	既定値:  " origin_path: "
-
-
-partial#open_type				*partial#open_type*
-	既定値:  "edit"
+g:partial#partial_path_prefix			*g:partial#partial_path_prefix*
+	既定値:  ' partial_path: '
 
 
 g:partial#open_type				*g:partial#open_type*
-	既定値: = "edit"
+	既定値:  'edit'
 
 
 ------------------------------------------------------------------------------
 コマンド					*partial-commands*
 
-:PartialOpen[!] {}				*:PartialOpen*
+:PartialOpen[!] {filetype}			*:PartialOpen*
 
 
-:PartialTabedit[!] {}				*:PartialTabedit*
+:PartialTabedit[!] {filetype}			*:PartialTabedit*
 
 
-:PartialVsplit[!] {}				*:PartialVsplit*
+:PartialVsplit[!] {filetype}			*:PartialVsplit*
 
 
-:PartialSplit[!] {}				*:PartialSplit*
+:PartialSplit[!] {filetype}			*:PartialSplit*
 
 
-:PartialEdit[!] {}				*:PartialEdit*
+:PartialEdit[!] {filetype}			*:PartialEdit*
 
 
 :PartialUpdate					*:PartialUpdate*
@@ -131,24 +107,20 @@ g:partial#open_type				*g:partial#open_type*
 関数						*partial-functions*
 
 						*partial#create()*
-partial#create({create-flag}, {filetype})
+partial#create({create_flag}, {filetype})
 
 
 						*partial#open()*
-partial#open({create-flag}, {filetype}, {open-type} = {g}:{partial}#{open-type})
+partial#open({create_flag}, {filetype}, {open_type} = |g:partial#open_type|)
 
 
 partial#update_origin()				*partial#update_origin()*
 
 
 ==============================================================================
-TODO						*partial-todo*
-
-
-
-==============================================================================
 更新履歴					*partial-changelog*
 
+2023-01-12 v0.1	  基本機能の実装完了
 
 ==============================================================================
 vim:tw=78:ts=8:ft=help:norl:noet:fen:cole=0
