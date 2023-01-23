@@ -62,11 +62,11 @@ g:partial#comment_out_symbols			*g:partial#comment_out_symbols*
 	既定値:  { 'vim': '"', 'lua': '--' }
 
 
-g:partial#head_string				*g:partial#head_string*
+g:partial#head_symbol				*g:partial#head_symbol*
 	既定値:  ' <%'
 
 
-g:partial#tail_string				*g:partial#tail_string*
+g:partial#tail_symbol				*g:partial#tail_symbol*
 	既定値:  ' %>'
 
 
