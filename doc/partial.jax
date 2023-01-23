@@ -38,7 +38,10 @@ TODO				|partial-todo|
 ==============================================================================
 概要						*partial-introduction*
 
-*partial.vim* は
+*partial.vim* は囲みの範囲を別ファイルにして、編集できるようにします。
+また、編集した内容を元ファイルに反映できます。
+マークダウンのコードブロックや、|dein|で使用できるtomlファイル内で記述できるluaや
+vim scriptを別ファイルにすることで、LSPやフォーマッターを動かしやすくして編集しやすくします。
 
 最新版:
 https://github.com/yasunori-kirin0418/partial.vim
