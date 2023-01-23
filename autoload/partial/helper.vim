@@ -50,8 +50,8 @@ endfunction
 " Return: dict{head_pattern, tail_pattern}
 function! partial#helper#surround_pattern(filetype) abort
   return {
-        \ 'head_pattern': g:partial#comment_out_symbols[a:filetype] . g:partial#head_string . g:partial#partial_path_prefix,
-        \ 'tail_pattern': g:partial#comment_out_symbols[a:filetype] . g:partial#tail_string,
+        \ 'head_pattern': g:partial#comment_out_symbols[a:filetype] . g:partial#head_symbol . g:partial#partial_path_prefix,
+        \ 'tail_pattern': g:partial#comment_out_symbols[a:filetype] . g:partial#tail_symbol,
         \ 'partial_to_origin': g:partial#comment_out_symbols[a:filetype] . g:partial#origin_path_prefix
         \ }
 endfunction
