@@ -31,6 +31,7 @@ License : MIT license  {{{
   変数				  |partial-variables|
   コマンド			  |partial-commands|
   関数				  |partial-functions|
+囲みの例		  	|partial-surround-examples|
 TODO				|partial-todo|
 更新履歴			|partial-changelog|
 
@@ -66,22 +67,36 @@ g:partial#comment_out_symbols			*g:partial#comment_out_symbols*
 
 g:partial#head_symbol				*g:partial#head_symbol*
 	既定値:  ' <%'
-
-
 g:partial#tail_symbol				*g:partial#tail_symbol*
 	既定値:  ' %>'
-
-
-g:partial#origin_path_prefix			*g:partial#origin_path_prefix*
-	既定値:  ' origin_path: '
+	別ファイルにする範囲の囲みを作る際に、囲みとしての目印になります。
+	コード中に出てこないような、ユニークな文字列にするのをお勧めします。
+	NOTE: この値の使い方は、|partial-surround-examples|を確認してください。
 
 
 g:partial#partial_path_prefix			*g:partial#partial_path_prefix*
 	既定値:  ' partial_path: '
+	別ファイルにする範囲の囲みで、別ファイルのパスを指定する手前の文字列です。
+	NOTE: この値の使い方は、|partial-surround-examples|を確認してください。
+	NOTE: このプラグインでの囲みであると理解しているなら空でも問題ありません。
+
+
+g:partial#origin_path_prefix			*g:partial#origin_path_prefix*
+	既定値:  ' origin_path: '
+	別ファイル生成時に紐付く、元ファイルのパスの手前に挿入される文字列です。
+	NOTE: この値の使い方は、|partial-surround-examples|を確認してください。
+	NOTE: このプラグインによる囲みであると理解しているなら空でも問題ありません。
 
 
 g:partial#open_type				*g:partial#open_type*
 	既定値:  'edit'
+	|:PartialOpen|による別ファイルの開き方を指定できます。
+	使用できる値は下記の通りです。
+
+		'edit'		|:edit|と同じ
+		'vsplit'	|:vsplit|と同じ
+		'split'		|:split|と同じ
+		'tabedit'	|:tabedit|と同じ
 
 
 ------------------------------------------------------------------------------
@@ -117,6 +132,10 @@ partial#open({create_flag}, {filetype}, {open_type} = |g:partial#open_type|)
 
 
 partial#update_origin()				*partial#update_origin()*
+
+
+==============================================================================
+囲みの例					*partial-surround-examples*
 
 
 ==============================================================================
