@@ -60,6 +60,8 @@ https://github.com/yasunori-kirin0418/partial.vim
 
 g:partial#comment_out_symbols			*g:partial#comment_out_symbols*
 	既定値:  { 'vim': '"', 'lua': '--' }
+	囲みの範囲に使われている言語のコメントアウト記号。
+	キーは|filetype|で、値には言語で使われているコメントアウトの記号にする。
 
 
 g:partial#head_symbol				*g:partial#head_symbol*
