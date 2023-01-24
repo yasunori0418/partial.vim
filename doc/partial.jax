@@ -64,7 +64,7 @@ g:partial#comment_out_symbols			*g:partial#comment_out_symbols*
 	囲みの範囲に使われている言語のコメントアウト記号。
 	キーは|filetype|で、値には言語で使われているコメントアウトの記号にする。
 
-	NOTE: 現状HTMLやCSSのようなコメントアウト記号は対応していません。
+	NOTE: 現状HTMLやCSSのようなコメントアウト記号には対応していません。
 
 
 g:partial#head_symbol				*g:partial#head_symbol*
@@ -108,21 +108,38 @@ g:partial#open_type				*g:partial#open_type*
 コマンド					*partial-commands*
 
 :PartialOpen[!] {filetype}			*:PartialOpen*
+	元ファイルで正しく囲みを設定できている範囲内で実行してください。
+	囲みで指定した別ファイルを生成して開きます。
+	ファイルの開き方は|g:partial#open_type|に設定されている方法になります。
+	{filetype}には囲み内の言語を指定します。指定できる言語は、
+	|g:partial#comment_out_symbols|に設定できている物に限ります。
+	コマンド実行時に[!]を使用すると既に生成されているファイルを開くだけです。
+
+	NOTE: 既にファイルを生成した状態で[!]なしで実行すると、
+	      元ファイルの内容で別ファイルを上書きします。
 
 
 :PartialTabedit[!] {filetype}			*:PartialTabedit*
+	使い方は|:PartialOpen|と同じです。別ファイルをタブで開きます。
 
 
 :PartialVsplit[!] {filetype}			*:PartialVsplit*
+	使い方は|:PartialOpen|と同じです。別ファイルを垂直分割で開きます。
 
 
 :PartialSplit[!] {filetype}			*:PartialSplit*
+	使い方は|:PartialOpen|と同じです。別ファイルを水平分割で開きます。
 
 
 :PartialEdit[!] {filetype}			*:PartialEdit*
+	使い方は|:PartialOpen|と同じです。別ファイルを現在のバッファウィンドウで開きます。
 
 
 :PartialUpdate					*:PartialUpdate*
+	このプラグインで生成した別ファイル内で実行してください。
+	別ファイルでの編集内容を元ファイルに反映します。
+
+	NOTE: 元ファイルの対象範囲を別ファイルの内容で上書きします。
 
 
 ------------------------------------------------------------------------------
