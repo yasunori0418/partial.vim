@@ -145,15 +145,29 @@ g:partial#open_type				*g:partial#open_type*
 ------------------------------------------------------------------------------
 関数						*partial-functions*
 
-						*partial#create()*
-partial#create({create_flag}, {filetype})
-
-
 						*partial#open()*
 partial#open({create_flag}, {filetype}, {open_type} = |g:partial#open_type|)
+	|:PartialOpen|の実装に使われています。
+	実行する際は囲みを設定したファイル内で実行してください。
+	ファイルを作成する場合は{create_flag}を|TRUE|にします。
+	{filetype}は囲みの中で使われている言語です。
+	{open_type}は|g:partial#open_type|に設定できる値です。
+
+
+						*partial#create()*
+partial#create({create_flag}, {filetype})
+	|partial#open()|の実装に使用されています。
+	実行する際は囲みを設定したファイル内で実行してください。
+	ファイルを作成する場合は{create_flag}を|TRUE|にします。
+	{filetype}は囲みの中で使われている言語です。
 
 
 partial#update_origin()				*partial#update_origin()*
+	|:PartialUpdate|の実装に使用されています。
+	実行する際は|partial#create()|で生成したファイル内で実行してください。
+	別ファイルでの編集内容を元ファイルに反映します。
+
+	NOTE: 元ファイルの対象範囲を別ファイルの内容で上書きします。
 
 
 ==============================================================================
