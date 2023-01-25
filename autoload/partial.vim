@@ -73,6 +73,10 @@ function! partial#open(create_flag, filetype, open_type = g:partial#open_type) a
   let partial_file_path = partial#create(a:create_flag, a:filetype)
 
   if a:open_type =~# 'edit\|vsplit\|split\|tabedit'
+    if !filereadable(partial_file_path)
+      echomsg partial_file_path
+      return
+    endif
     execute a:open_type partial_file_path
   else
     echohl WarningMsg
