@@ -23,7 +23,8 @@ License : MIT license  {{{
 }}}
 
 ==============================================================================
-目次						*partial-contents*
+						*partial-contents*
+目次~
 
 概要				|partial-introduction|
 使い方				|partial-usage|
@@ -37,7 +38,8 @@ TODO				|partial-todo|
 
 
 ==============================================================================
-概要						*partial-introduction*
+						*partial-introduction*
+概要~
 
 *partial.vim* は囲みの範囲を別ファイルにして、編集できるようにします。
 また、編集した内容を元ファイルに反映できます。
@@ -49,8 +51,8 @@ https://github.com/yasunori-kirin0418/partial.vim
 
 
 ==============================================================================
-使い方						*partial-usage*
-
+						*partial-usage*
+使い方~
 
 マークダウンでコードブロックによる別の言語を書く際に、コードブロックの最初の行に
 `" <% partial_path: ./partial/partial.vim`と、最後の行に`" %>`をコメントとして
@@ -79,10 +81,12 @@ NOTE: 囲みに関しては、|partial-surround-examples|を確認してくだ�
 
 
 ==============================================================================
-インターフェイス				*partial-interface*
+						*partial-interface*
+インターフェイス~
 
 ------------------------------------------------------------------------------
-変数						*partial-variables*
+						*partial-variables*
+変数~
 
 g:partial#comment_out_symbols			*g:partial#comment_out_symbols*
 	既定値:  { 'vim': '"', 'lua': '--' }
@@ -123,14 +127,15 @@ g:partial#open_type				*g:partial#open_type*
 	|:PartialOpen|による別ファイルの開き方を指定できます。
 	使用できる値は下記の通りです。
 
-		'edit'		|:edit|と同じ
-		'vsplit'	|:vsplit|と同じ
-		'split'		|:split|と同じ
-		'tabedit'	|:tabedit|と同じ
+		'edit'		`:edit`と同じ
+		'vsplit'	`:vsplit`と同じ
+		'split'		`:split`と同じ
+		'tabedit'	`:tabedit`と同じ
 
 
 ------------------------------------------------------------------------------
-コマンド					*partial-commands*
+						*partial-commands*
+コマンド~
 
 :PartialOpen[!] {filetype}			*:PartialOpen*
 	元ファイルで正しく囲みを設定できている範囲内で実行してください。
@@ -168,7 +173,8 @@ g:partial#open_type				*g:partial#open_type*
 
 
 ------------------------------------------------------------------------------
-関数						*partial-functions*
+						*partial-functions*
+関数~
 
 						*partial#open()*
 partial#open({create_flag}, {filetype}, {open_type} = |g:partial#open_type|)
@@ -196,11 +202,13 @@ partial#update_origin()				*partial#update_origin()*
 
 
 ==============================================================================
-囲みの例					*partial-surround-examples*
+						*partial-surround-examples*
+囲みの例~
 
 
 ==============================================================================
-更新履歴					*partial-changelog*
+						*partial-changelog*
+更新履歴~
 
 2023-01-12 v0.1	  基本機能の実装完了
 
