@@ -3,6 +3,7 @@
 このプラグインはコード内の別言語のコードを別ファイル(partial_file)にコピーして、分けた別ファイル(partial_file)で編集して同期できるようにします。
 
 ~~::NOTE::INFO:: このプラグインはテキストウェアです。機能の実装はされていません。~~
+
 ::NOTE::INFO:: 一応機能としては実装できてるけど最低限です。(v0.1)
 
 
@@ -34,7 +35,7 @@ dein.vimの場合
 ```toml
 [[plugins]]
 repo = 'yasunori-kirin0418/partial.vim'
-on_cmd = ['PartialOpen', 'PartialVsplit', 'PartialSplit', 'PartialTabedit', 'PartialSync']
+on_cmd = ['PartialOpen', 'PartialVsplit', 'PartialSplit', 'PartialTabedit']
 ```
 
 遅延起動させる場合、コマンドの実行をフックに読み込むことをお勧めします。
@@ -45,7 +46,7 @@ on_cmd = ['PartialOpen', 'PartialVsplit', 'PartialSplit', 'PartialTabedit', 'Par
 ```toml
 [[plugins]]
 repo = 'yasunori-kirin0418/partial.vim'
-on_cmd = ['PartialOpen', 'PartialVsplit', 'PartialSplit', 'PartialTabedit', 'PartialSync']
+on_cmd = ['PartialOpen', 'PartialVsplit', 'PartialSplit', 'PartialTabedit']
 hook_add = '''
 " <% partial_path: ./partial/partial.vim
 
