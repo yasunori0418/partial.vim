@@ -78,8 +78,6 @@ NOTE: コマンドに関しては、|partial-commands|を確認してくださ�
 `partial_path: `以降に指定したファイルパスに、囲まれた範囲のコードを
 別ファイルとして生成しファイルを開きます。
 実体のあるファイルとして生成するので、LSPやハイライトが機能した環境で編集が可能になります。
-生成されるファイルは、元ファイルからの相対パスが指定できます。
-また、環境変数を使用した絶対パスも指定可能です。
 NOTE: 囲みに関しては、|partial-surround-examples|を確認してください。
 
 以下は上記のtomlにて、`:PartialOpen vim`を実行して開かれたファイルの状態です。
@@ -91,9 +89,9 @@ NOTE: 囲みに関しては、|partial-surround-examples|を確認してくだ�
 	" origin_path: $HOME/path/to/origin_file %>
 <
 
-別ファイルでの編集が終ったら、`:PartialUpdate`を実行してください。
-別ファイルの内容を元ファイルで囲んだ範囲に反映します。
-この時元ファイルの内容は別ファイルの内容で上書きされます。
+部分ファイルでの編集が終ったら、`:PartialUpdate`を実行してください。
+部分ファイルの内容を元ファイルで囲んだ範囲に反映します。
+この時元ファイルの内容は部分ファイルの内容で上書きされます。
 
 
 ------------------------------------------------------------------------------
@@ -122,7 +120,7 @@ g:partial#head_symbol				*g:partial#head_symbol*
 	既定値:  ' <%'
 g:partial#tail_symbol				*g:partial#tail_symbol*
 	既定値:  ' %>'
-	別ファイルにする範囲の囲みを作る際に、囲みとしての目印になります。
+	部分ファイルにする範囲の囲みを作る際に、囲みとしての目印になります。
 	コード中に出てこないような、ユニークな文字列にするのをお勧めします。
 
 	NOTE: この値の使い方は、|partial-surround-examples|を確認してください。
@@ -130,7 +128,7 @@ g:partial#tail_symbol				*g:partial#tail_symbol*
 
 g:partial#partial_path_prefix			*g:partial#partial_path_prefix*
 	既定値:  ' partial_path: '
-	別ファイルにする範囲の囲みで、別ファイルのパスを指定する手前の文字列です。
+	部分ファイルにする範囲の囲みで、別ファイルのパスを指定する手前の文字列です。
 
 	NOTE: この値の使い方は、|partial-surround-examples|を確認してください。
 	NOTE: このプラグインでの囲みであると理解しているなら空でも問題ありません。
@@ -138,7 +136,7 @@ g:partial#partial_path_prefix			*g:partial#partial_path_prefix*
 
 g:partial#origin_path_prefix			*g:partial#origin_path_prefix*
 	既定値:  ' origin_path: '
-	別ファイル生成時に紐付く、元ファイルのパスの手前に挿入される文字列です。
+	部分ファイル生成時に紐付く、元ファイルのパスの手前に挿入される文字列です。
 
 	NOTE: この値の使い方は、|partial-surround-examples|を確認してください。
 	NOTE: このプラグインによる囲みであると理解しているなら空でも問題ありません。
@@ -172,24 +170,24 @@ g:partial#open_type				*g:partial#open_type*
 
 
 :PartialTabedit[!] {filetype}			*:PartialTabedit*
-	使い方は|:PartialOpen|と同じです。別ファイルをタブで開きます。
+	使い方は|:PartialOpen|と同じです。部分ファイルをタブで開きます。
 
 
 :PartialVsplit[!] {filetype}			*:PartialVsplit*
-	使い方は|:PartialOpen|と同じです。別ファイルを垂直分割で開きます。
+	使い方は|:PartialOpen|と同じです。部分ファイルを垂直分割で開きます。
 
 
 :PartialSplit[!] {filetype}			*:PartialSplit*
-	使い方は|:PartialOpen|と同じです。別ファイルを水平分割で開きます。
+	使い方は|:PartialOpen|と同じです。部分ファイルを水平分割で開きます。
 
 
 :PartialEdit[!] {filetype}			*:PartialEdit*
-	使い方は|:PartialOpen|と同じです。別ファイルを現在のバッファウィンドウで開きます。
+	使い方は|:PartialOpen|と同じです。部分ファイルを現在のバッファウィンドウで開きます。
 
 
 :PartialUpdate					*:PartialUpdate*
 	このプラグインで生成した別ファイル内で実行してください。
-	別ファイルでの編集内容を元ファイルに反映します。
+	部分ファイルでの編集内容を元ファイルに反映します。
 
 	NOTE: 元ファイルの対象範囲を別ファイルの内容で上書きします。
 
@@ -218,7 +216,7 @@ partial#create({create_flag}, {filetype})
 partial#update_origin()				*partial#update_origin()*
 	|:PartialUpdate|の実装に使用されています。
 	実行する際は|partial#create()|で生成したファイル内で実行してください。
-	別ファイルでの編集内容を元ファイルに反映します。
+	部分ファイルでの編集内容を元ファイルに反映します。
 
 	NOTE: 元ファイルの対象範囲を別ファイルの内容で上書きします。
 
