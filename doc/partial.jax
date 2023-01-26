@@ -61,7 +61,7 @@ vim scriptやluaを書く際に|partial.vim|を使用する例です。
 	repo = 'yasunori-kirin0418/partial.vim'
 	on_cmd = ['PartialOpen', 'PartialVsplit', 'PartialSplit', 'PartialTabedit']
 	hook_add = '''
-	" <% partial_path: ./partial/partial.vim
+	" <% partial_path: ./path/to/partial_file
 
 	echo 'hello world!'
 
@@ -81,6 +81,15 @@ NOTE: コマンドに関しては、|partial-commands|を確認してくださ�
 生成されるファイルは、元ファイルからの相対パスが指定できます。
 また、環境変数を使用した絶対パスも指定可能です。
 NOTE: 囲みに関しては、|partial-surround-examples|を確認してください。
+
+以下は上記のtomlにて、`:PartialOpen vim`を実行して開かれたファイルの状態です。
+>
+	" <% partial_path: ./path/to/partial_file
+
+	echo 'hello world!'
+
+	" origin_path: $HOME/path/to/origin_file %>
+<
 
 別ファイルでの編集が終ったら、`:PartialUpdate`を実行してください。
 別ファイルの内容を元ファイルで囲んだ範囲に反映します。
