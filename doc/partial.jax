@@ -98,6 +98,28 @@ NOTE: 囲みに関しては、|partial-surround-examples|を確認してくだ�
 						*partial-surround-examples*
 囲みの例~
 
+以下はデフォルト値で囲みを書く方法です。
+>
+	" Origin file
+	" <% partial_path: ./path/to/partial_file
+	" Some code.
+	" %>
+
+	" Partial file
+	" <% partial_path: ./path/to/partial_file
+	" Some code.
+	" origin_path: $HOME/path/to/origin_file %>
+<
+
+1行目と3行目の`<%`と`%>`は、|g:partial#head_symbol|と|g:partial#tail_symbol|によって定義されています。
+これらの変数にセットする記号は、周りのコードと区別できるようなものにしてください。
+
+次に1行目の`partial_path:`とその後の`./path/to/partial_file`は、
+`:PartialOpen {filetype}`によって作成されるファイルのパスになります。
+相対パスにした場合、元ファイルからの相対パスに部分ファイルを生成します。
+また、環境変数を含む絶対パスも指定可能です。
+
+|partial.vim|では囲みの範囲を探索する際の目印になっています。
 
 
 ==============================================================================
