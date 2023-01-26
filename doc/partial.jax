@@ -54,17 +54,24 @@ https://github.com/yasunori-kirin0418/partial.vim
 						*partial-usage*
 使い方~
 
-マークダウンでコードブロックによる別の言語を書く際に、コードブロックの最初の行に
-`" <% partial_path: ./partial/partial.vim`と、最後の行に`" %>`をコメントとして
-記述します。このファイルは元ファイルと呼びます。
+以下は|dein|が使用できるtomlによるプラグイン管理で、
+vim scriptやluaを書く際に|partial.vim|を使用する例です。
 >
+	[[plugins]]
+	repo = 'yasunori-kirin0418/partial.vim'
+	on_cmd = ['PartialOpen', 'PartialVsplit', 'PartialSplit', 'PartialTabedit']
+	hook_add = '''
 	" <% partial_path: ./partial/partial.vim
-	
+
 	echo 'hello world!'
-	
+
 	" %>
+	'''
 <
-これが|partial.vim|における囲みと呼ばれるものです。
+そのほかマークダウンでコードブロックによる別の言語を書く際に、コードブロックの最初の行に
+`" <% partial_path: ./path/to/file`と、最後の行に`" %>`をコメントとして
+記述します。このファイルは元ファイルと呼びます。
+これを|partial.vim|における囲みと呼びます。
 囲み内で、`:PartialOpen vim`を実行してください。
 NOTE: コマンドに関しては、|partial-commands|を確認してください。
 
@@ -78,6 +85,12 @@ NOTE: 囲みに関しては、|partial-surround-examples|を確認してくだ�
 別ファイルでの編集が終ったら、`:PartialUpdate`を実行してください。
 別ファイルの内容を元ファイルで囲んだ範囲に反映します。
 この時元ファイルの内容は別ファイルの内容で上書きされます。
+
+
+------------------------------------------------------------------------------
+						*partial-surround-examples*
+囲みの例~
+
 
 
 ==============================================================================
@@ -199,11 +212,6 @@ partial#update_origin()				*partial#update_origin()*
 	別ファイルでの編集内容を元ファイルに反映します。
 
 	NOTE: 元ファイルの対象範囲を別ファイルの内容で上書きします。
-
-
-==============================================================================
-						*partial-surround-examples*
-囲みの例~
 
 
 ==============================================================================
