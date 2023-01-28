@@ -239,30 +239,35 @@ g:partial#open_type				*g:partial#open_type*
 
 :PartialOpen[!] {filetype}			*:PartialOpen*
 	元ファイルで正しく囲みを設定できている範囲内で実行してください。
+	ファイルを生成する場合は[!]を付けて実行してください。
 	囲みで指定した別ファイルを生成して開きます。
 	ファイルの開き方は|g:partial#open_type|に設定されている方法になります。
 	{filetype}には囲み内の言語を指定します。指定できる言語は、
 	|g:partial#comment_out_symbols|に設定できている物に限ります。
-	コマンド実行時に[!]を使用すると既に生成されているファイルを開くだけです。
 
-	NOTE: 既にファイルを生成した状態で[!]なしで実行すると、
-	      元ファイルの内容で別ファイルを上書きします。
+	NOTE: 既に部分ファイルが生成された状態で、
+	      コマンド実行時に[!]を使用すると、
+	      既に生成されているファイルを上書きします。
 
 
 :PartialTabedit[!] {filetype}			*:PartialTabedit*
-	使い方は|:PartialOpen|と同じです。部分ファイルをタブで開きます。
+	使い方は|:PartialOpen|と同じです。
+	部分ファイルをタブで開きます。
 
 
 :PartialVsplit[!] {filetype}			*:PartialVsplit*
-	使い方は|:PartialOpen|と同じです。部分ファイルを垂直分割で開きます。
+	使い方は|:PartialOpen|と同じです。
+	部分ファイルを垂直分割で開きます。
 
 
 :PartialSplit[!] {filetype}			*:PartialSplit*
-	使い方は|:PartialOpen|と同じです。部分ファイルを水平分割で開きます。
+	使い方は|:PartialOpen|と同じです。
+	部分ファイルを水平分割で開きます。
 
 
 :PartialEdit[!] {filetype}			*:PartialEdit*
-	使い方は|:PartialOpen|と同じです。部分ファイルを現在のバッファウィンドウで開きます。
+	使い方は|:PartialOpen|と同じです。
+	部分ファイルを現在のバッファウィンドウで開きます。
 
 
 :PartialUpdate					*:PartialUpdate*
@@ -282,7 +287,11 @@ partial#open({create_flag}, {filetype}, {open_type} = |g:partial#open_type|)
 	実行する際は囲みを設定したファイル内で実行してください。
 	ファイルを作成する場合は{create_flag}を|TRUE|にします。
 	{filetype}は囲みの中で使われている言語です。
+	{filetype}は|g:partial#comment_out_symbols|に設定済みの物だけが使用可能です。
 	{open_type}は|g:partial#open_type|に設定できる値です。
+
+	NOTE: 既に部分ファイルが生成されている状態で{create_flag}をtrueにすると、
+	      部分ファイルを上書きします。
 
 
 						*partial#create()*
@@ -291,6 +300,11 @@ partial#create({create_flag}, {filetype})
 	実行する際は囲みを設定したファイル内で実行してください。
 	ファイルを作成する場合は{create_flag}を|TRUE|にします。
 	{filetype}は囲みの中で使われている言語です。
+	{filetype}は|g:partial#comment_out_symbols|に設定済みの物だけが使用可能です。
+	実行後は生成した部分ファイルのパスを返します。
+
+	NOTE: 既に部分ファイルが生成されている状態で{create_flag}をtrueにすると、
+	      部分ファイルを上書きします。
 
 
 partial#update_origin()				*partial#update_origin()*
