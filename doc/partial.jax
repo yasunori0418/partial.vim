@@ -223,6 +223,15 @@ g:partial#origin_path_prefix			*g:partial#origin_path_prefix*
 	NOTE: このプラグインでの囲みであると理解しているなら空でも問題ありません。
 
 
+g:partial#relative_base_path			*g:partial#relative_base_path*
+	既定値:  なし
+	この変数を設定したパスからの相対パスで、部分ファイルを生成するようになります。
+	なにも設定しない場合は、元ファイルからの相対パスで部分ファイルが生成されます。
+
+	NOTE: この変数に設定できるパスは`~`を含んでいても問題ありません。
+	      内部で`expand()`を使用して展開しているので、環境変数の設定も可能です。
+
+
 g:partial#open_type				*g:partial#open_type*
 	既定値:  'edit'
 	|:PartialOpen|による別ファイルの開き方を指定できます。
