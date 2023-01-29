@@ -68,10 +68,14 @@ function! partial#helper#get_file_path(range) abort
     return fnamemodify(path_string, ':p:.')
   else
 
+    let relative_base_path = get(g:, 'partial#relative_base_path', a:range.origin_directory)
+    if !isdirectory(expand(relative_base_path))
+      call mkdir(expand(relative_base_path), 'p')
+    endif
     if has('linux') || has('mac')
-      return fnamemodify(a:range.origin_directory . '/' . path_string, ':p:.')
+      return fnamemodify(relative_base_path . '/' . path_string, ':p:.')
     elseif has('win64')
-      return fnamemodify(a:range.origin_directory . '\' . path_string, ':p:.')
+      return fnamemodify(relative_base_path . '\' . path_string, ':p:.')
     endif
   endif
 endfunction
