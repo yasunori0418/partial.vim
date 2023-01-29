@@ -2,16 +2,26 @@
 " Author: yasunori-kirin0418
 " License: MIT
 
-let g:partial#comment_out_symbols = #{
-  \ vim: '"',
-  \ lua: '--',
-  \ }
-let g:partial#head_symbol = ' <%'
-let g:partial#tail_symbol = ' %>'
-let g:partial#partial_path_prefix = ' partial_path: '
-let g:partial#origin_path_prefix = ' origin_path: '
-" open_type(edit, vsplit, split, tabedit)
-let g:partial#open_type = 'edit'
+
+" Name: partial#option
+" Description: Initialize option of this plugin.
+" Return: void
+function! partial#option() abort
+  if !empty(g:partial#comment_out_symbols)
+    for item in items(g:partial#comment_out_symbols)
+      let g:partial#comment_out_symbols[item[0]] = item[1]
+    endfor
+  endif
+  let g:partial#comment_out_symbols.vim = get(g:partial#comment_out_symbols, 'vim', '"')
+  let g:partial#comment_out_symbols.lua = get(g:partial#comment_out_symbols, 'lua', '--')
+
+  let g:partial#head_symbol = get(g:, 'partial#head_symbol', ' <%')
+  let g:partial#tail_symbol = get(g:, 'partial#tail_symbol', ' %>')
+  let g:partial#partial_path_prefix = get(g:, 'partial#partial_path_prefix', ' partial_path: ')
+  let g:partial#origin_path_prefix = get(g:, 'partial#origin_path_prefix', ' origin_path: ')
+  " open_type(edit, vsplit, split, tabedit)
+  let g:partial#open_type = get(g:, 'partial#open_type', 'edit')
+endfunction
 
 " Name: partial#create
 " Description: Create a partial file with the range taken from the original file.
