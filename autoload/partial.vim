@@ -2,16 +2,29 @@
 " Author: yasunori-kirin0418
 " License: MIT
 
-let g:partial#comment_out_symbols = #{
-  \ vim: '"',
-  \ lua: '--',
-  \ }
-let g:partial#head_symbol = ' <%'
-let g:partial#tail_symbol = ' %>'
-let g:partial#partial_path_prefix = ' partial_path: '
-let g:partial#origin_path_prefix = ' origin_path: '
-" open_type(edit, vsplit, split, tabedit)
-let g:partial#open_type = 'edit'
+
+" Name: partial#option
+" Description: Initialize option of this plugin.
+" Return: void
+function! partial#option() abort
+  try
+    for item in items(g:partial#comment_out_symbols)
+      let g:partial#comment_out_symbols[item[0]] = item[1]
+    endfor
+  catch /Undefined variable:/
+    let g:partial#comment_out_symbols = {}
+  finally
+    let g:partial#comment_out_symbols.vim = get(g:partial#comment_out_symbols, 'vim', '"')
+    let g:partial#comment_out_symbols.lua = get(g:partial#comment_out_symbols, 'lua', '--')
+  endtry
+
+  let g:partial#head_symbol = get(g:, 'partial#head_symbol', ' <%')
+  let g:partial#tail_symbol = get(g:, 'partial#tail_symbol', ' %>')
+  let g:partial#partial_path_prefix = get(g:, 'partial#partial_path_prefix', ' partial_path: ')
+  let g:partial#origin_path_prefix = get(g:, 'partial#origin_path_prefix', ' origin_path: ')
+  " open_type(edit, vsplit, split, tabedit)
+  let g:partial#open_type = get(g:, 'partial#open_type', 'edit')
+endfunction
 
 " Name: partial#create
 " Description: Create a partial file with the range taken from the original file.
@@ -46,9 +59,9 @@ function! partial#create(create_flag, filetype) abort
 
   let origin_lines = getline(partial_range.startline, partial_range.endline - 1)
   let partial_tail_string = g:partial#comment_out_symbols[partial_range.filetype]
+                        \ . g:partial#tail_symbol
                         \ . g:partial#origin_path_prefix
                         \ . partial_range.origin_path->substitute(expand(home_dir_env), home_dir_env, '')
-                        \ . g:partial#tail_symbol
   call add(origin_lines, partial_tail_string)
 
   let partial_directory = fnamemodify(partial_file_path, ':h')

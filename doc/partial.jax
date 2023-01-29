@@ -89,7 +89,7 @@ NOTE: 囲みに関しては、|partial-surround-examples|を確認してくだ�
 
 	echo 'hello world!'
 
-	" origin_path: $HOME/path/to/origin_file %>
+	" %> origin_path: $HOME/path/to/origin_file
 <
 
 部分ファイルでの編集が終ったら、`:PartialUpdate`を実行してください。
@@ -140,16 +140,15 @@ NOTE: 囲みに関しては、|partial-surround-examples|を確認してくだ�
 	" Partial file
 	" <% partial_path: ./path/to/partial_file
 	" Some code.
-	" origin_path: $HOME/path/to/origin_file %>
+	" %> origin_path: $HOME/path/to/origin_file
 <
 
 部分ファイルでも囲みは存在しますが、プラグインによって自動生成されるので
 編集することはありません。
 `origin_path:`という文字列を定義しているのは|g:partial#origin_path_prefix|です。
 この変数は|g:partial#partial_path_prefix|と同じような物ですが、
-現時点(v0.1)では空白にはできません。
-NOTE: |g:partial#origin_path_prefix|の仕様に関しては、
-      |g:partial#partial_path_prefix|と同じ仕様に変更予定です。
+この変数は、その後に続く元ファイルのパスが分かりやすくするために用意された物です。
+不要であると感じた場合は、空白にしても問題ありません。
 
 
 						*partial-surround-remarks*
@@ -165,11 +164,11 @@ NOTE: |g:partial#origin_path_prefix|の仕様に関しては、
 	g:partial#comment_out_symbols.vim . g:partial#head_symbol . g:partial#partial_path_prefix
 
 
-	" origin_path: $HOME/path/to/origin_file %>
-	│  │					 │
-	│  │					 └──────────────────────────┐
-	↓  └─────────────────────────────────↓				    ↓
-	g:partial#comment_out_symbols.vim . g:partial#origin_path_prefix . g:partial#tail_symbol
+	" %> origin_path: $HOME/path/to/origin_file
+	│  │  │
+	│  │  └──────────────────────────────────────────────────────┐
+	↓  └─────────────────────────────────↓			     ↓
+	g:partial#comment_out_symbols.vim . g:partial#tail_symbol . g:partial#origin_path_prefix
 <
 
 これらの変数を変更する場合は、元ファイルにて囲みを作成したり、
@@ -218,8 +217,10 @@ g:partial#partial_path_prefix			*g:partial#partial_path_prefix*
 g:partial#origin_path_prefix			*g:partial#origin_path_prefix*
 	既定値:  ' origin_path: '
 	部分ファイル生成時に紐付く、元ファイルのパスの手前に挿入される文字列です。
+	後に続く元ファイルへのパスが分かりやすくするために用意された物です。
 
 	NOTE: この値の使い方は、|partial-surround-examples|を確認してください。
+	NOTE: このプラグインでの囲みであると理解しているなら空でも問題ありません。
 
 
 g:partial#open_type				*g:partial#open_type*
