@@ -295,6 +295,17 @@ g:partial#open_type				*g:partial#open_type*
 	NOTE: 元ファイルの対象範囲を別ファイルの内容で上書きします。
 
 
+:PartialSurround {filetype}			*:PartialSurround*
+	現在のカーソル位置の下の行に{filetype}の場合の囲みを挿入します。
+	生成すると以下のようになります。
+>
+	" <% partial_path: change_here/path/to/partial_file
+	" %>
+<
+	`change_here/path/to/partial_file`となっている部分を、
+	生成したい部分ファイルのパスに書き替えてください。
+
+
 ------------------------------------------------------------------------------
 						*partial-functions*
 関数~
@@ -331,6 +342,13 @@ partial#update_origin()				*partial#update_origin()*
 	部分ファイルでの編集内容を元ファイルに反映します。
 
 	NOTE: 元ファイルの対象範囲を別ファイルの内容で上書きします。
+
+
+partial#surround({filetype})			*partial#surround()*
+	|:PartialSurround|の実装に使用されています。
+	現在のカーソル行の下の行に、指定した{filetype}の囲みを生成します。
+	`change_here/path/to/partial_file`となっている部分を、
+	生成したい部分ファイルのパスに書き替えてください。
 
 
 ==============================================================================

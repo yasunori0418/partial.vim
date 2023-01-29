@@ -47,7 +47,7 @@ endfunction
 " Name: partial#helper#surround_pattern
 " Description: Generates a pattern of enclosing characters for the part to be a partial file according to the comment out for each language.
 " Params: string(filetype)
-" Return: dict{head_pattern, tail_pattern}
+" Return: dict{head_pattern, tail_pattern, partial_to_origin}
 function! partial#helper#surround_pattern(filetype) abort
   return {
         \ 'head_pattern': g:partial#comment_out_symbols[a:filetype] . g:partial#head_symbol . g:partial#partial_path_prefix,

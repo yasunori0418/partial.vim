@@ -137,3 +137,14 @@ function! partial#update_origin() abort
   call append(origin_startline, partial_lines)
 endfunction
 
+" Name: partial#surround
+" Description: Creates an enclosure for each file type at the cursor position.
+" Params: string(filetype)
+" Return: void
+function! partial#surround(filetype) abort
+  let surround_patterns = partial#helper#surround_pattern(a:filetype)
+  call append(line('.'), [
+                         \ surround_patterns.head_pattern . 'change_here/path/to/partial_file',
+                         \ surround_patterns.tail_pattern
+                         \ ])
+endfunction

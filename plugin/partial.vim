@@ -16,3 +16,4 @@ command! -bang -nargs=1 PartialSplit call partial#open(<bang>0, <f-args>, 'split
 command! -bang -nargs=1 PartialEdit call partial#open(<bang>0, <f-args>, 'edit')
 command! -nargs=1 PartialCreate echo 'Create partial file: ' . partial#create(1, <f-args>)
 command! PartialUpdate call partial#update_origin()
+command! -nargs=1 PartialSurround call partial#surround(<f-args>)
