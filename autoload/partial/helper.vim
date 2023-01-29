@@ -52,7 +52,7 @@ function! partial#helper#surround_pattern(filetype) abort
   return {
         \ 'head_pattern': g:partial#comment_out_symbols[a:filetype] . g:partial#head_symbol . g:partial#partial_path_prefix,
         \ 'tail_pattern': g:partial#comment_out_symbols[a:filetype] . g:partial#tail_symbol,
-        \ 'partial_to_origin': g:partial#comment_out_symbols[a:filetype] . g:partial#origin_path_prefix
+        \ 'partial_to_origin': g:partial#comment_out_symbols[a:filetype] . g:partial#tail_symbol . g:partial#origin_path_prefix
         \ }
 endfunction
 

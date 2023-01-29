@@ -46,9 +46,9 @@ function! partial#create(create_flag, filetype) abort
 
   let origin_lines = getline(partial_range.startline, partial_range.endline - 1)
   let partial_tail_string = g:partial#comment_out_symbols[partial_range.filetype]
+                        \ . g:partial#tail_symbol
                         \ . g:partial#origin_path_prefix
                         \ . partial_range.origin_path->substitute(expand(home_dir_env), home_dir_env, '')
-                        \ . g:partial#tail_symbol
   call add(origin_lines, partial_tail_string)
 
   let partial_directory = fnamemodify(partial_file_path, ':h')
