@@ -7,13 +7,16 @@
 " Description: Initialize option of this plugin.
 " Return: void
 function! partial#option() abort
-  if !empty(g:partial#comment_out_symbols)
+  try
     for item in items(g:partial#comment_out_symbols)
       let g:partial#comment_out_symbols[item[0]] = item[1]
     endfor
-  endif
-  let g:partial#comment_out_symbols.vim = get(g:partial#comment_out_symbols, 'vim', '"')
-  let g:partial#comment_out_symbols.lua = get(g:partial#comment_out_symbols, 'lua', '--')
+  catch /Undefined variable:/
+    let g:partial#comment_out_symbols = {}
+  finally
+    let g:partial#comment_out_symbols.vim = get(g:partial#comment_out_symbols, 'vim', '"')
+    let g:partial#comment_out_symbols.lua = get(g:partial#comment_out_symbols, 'lua', '--')
+  endtry
 
   let g:partial#head_symbol = get(g:, 'partial#head_symbol', ' <%')
   let g:partial#tail_symbol = get(g:, 'partial#tail_symbol', ' %>')
