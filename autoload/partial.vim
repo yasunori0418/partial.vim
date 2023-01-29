@@ -144,7 +144,7 @@ endfunction
 function! partial#surround(filetype) abort
   let surround_patterns = partial#helper#surround_pattern(a:filetype)
   call append(line('.'), [
-                         \ surround_patterns.head_pattern . '"change_here/path/to/partial_file"',
+                         \ surround_patterns.head_pattern . 'change_here/path/to/partial_file',
                          \ surround_patterns.tail_pattern
                          \ ])
 endfunction
