@@ -241,7 +241,7 @@ g:partial#open_type				*g:partial#open_type*
 :PartialOpen[!] {filetype}			*:PartialOpen*
 	元ファイルで正しく囲みを設定できている範囲内で実行してください。
 	ファイルを生成する場合は[!]を付けて実行してください。
-	囲みで指定した別ファイルを生成して開きます。
+	囲みで指定した部分ファイルを生成して開きます。
 	ファイルの開き方は|g:partial#open_type|に設定されている方法になります。
 	{filetype}には囲み内の言語を指定します。指定できる言語は、
 	|g:partial#comment_out_symbols|に設定できている物に限ります。
@@ -269,6 +269,14 @@ g:partial#open_type				*g:partial#open_type*
 :PartialEdit[!] {filetype}			*:PartialEdit*
 	使い方は|:PartialOpen|と同じです。
 	部分ファイルを現在のバッファウィンドウで開きます。
+
+
+:PartialCreate {filetype}			*:PartialCreate*
+	元ファイルで正しく囲みを設定できている範囲内で実行してください。
+	囲みで指定した部分ファイルを生成します。
+	実行後に生成された部分ファイルのパスを表示します。
+	{filetype}には囲み内の言語を指定します。指定できる言語は、
+	|g:partial#comment_out_symbols|に設定できている物に限ります。
 
 
 :PartialUpdate					*:PartialUpdate*
