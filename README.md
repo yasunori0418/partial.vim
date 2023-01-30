@@ -1,10 +1,10 @@
 # partial.vim
 
-このプラグインはコード内の別言語のコードを別ファイル(partial_file)にコピーして、分けた別ファイル(partial_file)で編集して同期できるようにします。
+**partial.vim** は囲みの範囲を部分ファイルにして、編集できるようにします。
 
-~~::NOTE::INFO:: このプラグインはテキストウェアです。機能の実装はされていません。~~
-
-::NOTE::INFO:: 一応機能としては実装できてるけど最低限です。(v0.1)
+また、編集した内容を元ファイルに反映できます。
+マークダウンのコードブロックや、[dein.vim](https://github.com/Shougo/dein.vim)で使用できるtomlファイル内で記述できるluaや
+vim scriptを別ファイルにすることで、LSPやフォーマッターを使えるようにして編集しやすくします。
 
 
 ## Motivation
@@ -35,7 +35,16 @@ dein.vimの場合
 ```toml
 [[plugins]]
 repo = 'yasunori-kirin0418/partial.vim'
-on_cmd = ['PartialOpen', 'PartialVsplit', 'PartialSplit', 'PartialTabedit']
+on_cmd = [
+  'PartialOpen',
+  'PartialEdit',
+  'PartialTabedit',
+  'PartialVsplit',
+  'PartialSplit',
+  'PartialCreate',
+  'PartialUpdate',
+  'PartialSurround',
+]
 ```
 
 遅延起動させる場合、コマンドの実行をフックに読み込むことをお勧めします。
@@ -46,7 +55,16 @@ on_cmd = ['PartialOpen', 'PartialVsplit', 'PartialSplit', 'PartialTabedit']
 ```toml
 [[plugins]]
 repo = 'yasunori-kirin0418/partial.vim'
-on_cmd = ['PartialOpen', 'PartialVsplit', 'PartialSplit', 'PartialTabedit']
+on_cmd = [
+  'PartialOpen',
+  'PartialEdit',
+  'PartialTabedit',
+  'PartialVsplit',
+  'PartialSplit',
+  'PartialCreate',
+  'PartialUpdate',
+  'PartialSurround',
+]
 hook_add = '''
 " <% partial_path: ./partial/partial.vim
 
@@ -62,3 +80,4 @@ hook_add = '''
 1. 最初の行にコメントアウトで`<% partial_path: ./partial/partial.vim`と別ファイル(partial_file)へのパスを書く必要があります。
     この別ファイルへのパスは元のファイルからの相対パスか、絶対パスを指定してください。
 1. 別ファイルにしたいコードの最終行にコメントアウトで`%>`を書く必要がります。
+1. 詳しい使い方は`:h partial.vim`でヘルプを確認してください。
